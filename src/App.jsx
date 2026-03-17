@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+
 import Login from "./Login";
 import Signup from "./Signup";
 function App() {
@@ -11,7 +12,7 @@ function App() {
         setAuthScreen('login')
     }
 
-    const goSignupButton = <button className="signup-button" onClick={goSignup} >Go Sign Up</button>
+    const goSignupButton = <button className="a" onClick={goSignup} >Go Sign Up</button>
     const goLoginButton = <button className="login-button" onClick={goLogin} >Go Login</button>
     return(
         <div className="auth">
