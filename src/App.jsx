@@ -3,6 +3,40 @@ import { useState, useEffect } from "react";
 import Login from "./Login";
 import Signup from "./Signup";
 function App() {
+
+    /*Login Details*/
+    const [loginName, setLoginName] = useState(null)
+    const [loginPassword, setLoginPassword] = useState(null)
+    const loginRef = useRef(null)
+    function setUserInfoRef() {
+        loginRef.current = {
+          'name': loginName,
+          'password': loginPassword,
+        }
+        console.log(loginRef.current)
+    }
+
+    /*Signup Details*/
+    const [signupName, setSignupName] = useState(null)
+    const [signupPassword, setSignupPassword] = useState(null)
+    const [signupBirthday, setSignupBirthday] = useState(null)
+    const [signupEmail, setSignupEmail] = useState(null)
+    const [isTC, setIsTC] = useState(null)
+    const userSignupRef = useRef(null)
+    let signupIsFilled = isTC && !!signupName && !!signupPassword && !!signupBirthday && !!signupEmail
+    function setUserInfoRef() {
+        if (!signupIsFilled){
+            return
+        }
+        userSignupRef.current = {
+          'name': signupName,
+          'password': signupPassword,
+          'birthday': signupBirthday,
+        }
+        console.log(userSignupRef.current)
+    }
+
+    /*Setting which screen are we on*/
     const [authScreen, setAuthScreen] = useState('login')
 
     function goSignup() {
