@@ -1,14 +1,13 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 
-import Login from "./Login";
-import Signup from "./Signup";
 function App() {
 
     /*Login Details*/
     const [loginName, setLoginName] = useState(null)
     const [loginPassword, setLoginPassword] = useState(null)
     const loginRef = useRef(null)
-    function setUserInfoRef() {
+    function setLoginInfoRef(e) {
+        e.preventDefault()
         loginRef.current = {
           'name': loginName,
           'password': loginPassword,
@@ -21,10 +20,11 @@ function App() {
     const [signupPassword, setSignupPassword] = useState(null)
     const [signupBirthday, setSignupBirthday] = useState(null)
     const [signupEmail, setSignupEmail] = useState(null)
-    const [isTC, setIsTC] = useState(null)
+    const [isTC, setIsTC] = useState(false)
     const userSignupRef = useRef(null)
     let signupIsFilled = isTC && !!signupName && !!signupPassword && !!signupBirthday && !!signupEmail
-    function setUserInfoRef() {
+    function setSignupInfoRef(e) {
+        e.preventDefault()
         if (!signupIsFilled){
             return
         }
@@ -39,22 +39,46 @@ function App() {
     /*Setting which screen are we on*/
     const [authScreen, setAuthScreen] = useState('login')
 
-    function goSignup() {
-        setAuthScreen('signup')
-    }
-    function goLogin() {
-        setAuthScreen('login')
+    /*Display Login/Signup Screen*/
+    function displayScreen() {
+        if (authScreen === 'login'){
+            return(
+                <form className="" onSubmit={(e) => e.preventDefault()}>
+                    <h2 className="text-white">Login</h2>
+                    <h4>Name</h4>
+                    <input className="login-input-name" type='text' onChange={(e) => setLoginName(e.target.value)}></input>
+                    <h4>Password</h4>
+                    <input className="login-input-password" type='password' onChange={(e) => setLoginPassword(e.target.value)}></input>
+                    <br></br>
+                    <input className="login-submit" type="submit" onClick={(e) => setLoginInfoRef(e)}></input>
+                    <button type='button' className="underline bg-sky-700" onClick={(e) => setAuthScreen('signup')} >Go Login</button>
+                </form>
+            )
+        }
+        if (authScreen === 'signup'){
+            return(
+                <form className="signup" onSubmit={(e) => e.preventDefault()}>
+                    <h2 className="signup-title">Signup</h2>
+                    <h4>Your Name</h4>
+                    <input className="signup-input-name" type='text' onChange={(e) => setSignupName(e.target.value)}></input>
+                    <h4>Your New Password</h4>
+                    <input className="signup-input-password" type='password' onChange={(e) => setSignupPassword(e.target.value)}></input>
+                    <h4>Your Birthday</h4>
+                    <input className="signup-input-birthday" type='date' onChange={(e) => setSignupBirthday(e.target.value)}></input>
+                    <h4>Your Email</h4>
+                    <input className="signup-input-birthday" type='email' onChange={(e) => setSignupEmail(e.target.value)}></input>
+                    <br />
+                    <label>
+                            <input className="TC-checkbox" type="checkbox" checked={isTC} onChange={(e) => setIsTC(e.target.checked)}></input>
+                            <h4>I agree to the Terms and Conditions</h4>
+                    </label>
+                    <input className="signup-submit" type="submit" onClick={(e) => setSignupInfoRef(e)} disabled={!signupIsFilled}></input>
+                    <button type='button' className="underline bg-red-500 text-white" onClick={(e) => setAuthScreen('login')} >Go Login</button>
+                </form>
+            )
+        }
     }
 
-    const goSignupButton = <button className="underline bg-red-500 text-white text-3xl min-h-screen" onClick={goSignup} >Go Sign Up</button>
-    const goLoginButton = <button className="underline bg-sky-700 min-w-[100px] px-4 py-2" onClick={goLogin} >Go Login</button>
-    return(
-        <div className="bg-cyan-200">
-            {authScreen === 'login' && <Login/>}
-            {authScreen === 'signup' && <Signup/>}
-            {authScreen === 'login' && goSignupButton}
-            {authScreen === 'signup' && goLoginButton}
-        </div>
-    );
+    return(<>{displayScreen()}</>);
 }
 export default App
