@@ -46,12 +46,12 @@ function App() {
                 <form className="" onSubmit={(e) => e.preventDefault()}>
                     <h2 className="text-white">Login</h2>
                     <h4>Name</h4>
-                    <input className="login-input-name" type='text' onChange={(e) => setLoginName(e.target.value)}></input>
+                    <input className="" type='text' onChange={(e) => setLoginName(e.target.value)}></input>
                     <h4>Password</h4>
                     <input className="login-input-password" type='password' onChange={(e) => setLoginPassword(e.target.value)}></input>
                     <br></br>
                     <input className="login-submit" type="submit" onClick={(e) => setLoginInfoRef(e)}></input>
-                    <button type='button' className="underline bg-sky-700" onClick={(e) => setAuthScreen('signup')} >Go Login</button>
+                    <a href="#" className="underline text-red-950" onClick={(e) => setAuthScreen('signup')} >Don't have an account? Signup here!</a>
                 </form>
             )
         }
@@ -73,7 +73,7 @@ function App() {
                             <h4>I agree to the Terms and Conditions</h4>
                     </label>
                     <input className="signup-submit" type="submit" onClick={(e) => setSignupInfoRef(e)} disabled={!signupIsFilled}></input>
-                    <button type='button' className="underline bg-red-500 text-white" onClick={(e) => setAuthScreen('login')} >Go Login</button>
+                    <a href="#" className="underline bg-sky-700" onClick={(e) => setAuthScreen('login')}>Already have an account? Login here!</a>
                 </form>
             )
         }
