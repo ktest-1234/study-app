@@ -1,6 +1,8 @@
 import { useState, useEffect, useRef } from "react";
+import { useNavigate } from "react-router-dom";
 
 function App() {
+    const navigate = useNavigate();
 
     /*Login Details*/
     const [loginName, setLoginName] = useState(null)
@@ -42,6 +44,8 @@ function App() {
     /*Display Login/Signup Screen*/
     function displayScreen() {
         if (authScreen === 'login'){
+            navigate('/login')
+            console.log(navigate.current)
             return(
                 <form className="" onSubmit={(e) => e.preventDefault()}>
                     <h2 className="text-white">Login</h2>
@@ -56,6 +60,7 @@ function App() {
             )
         }
         if (authScreen === 'signup'){
+            navigate('/signup')
             return(
                 <form className="signup" onSubmit={(e) => e.preventDefault()}>
                     <h2 className="signup-title">Signup</h2>
