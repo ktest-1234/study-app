@@ -1,6 +1,8 @@
 import Login from "./Login";
 import Signup from "./Signup";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import HomeProfile from "./HomeProfile";
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
+import { Outlet } from "react-router-dom";
 
 function App() {
     const isAuthenticated = true
