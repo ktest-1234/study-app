@@ -42,7 +42,6 @@ function App() {
     /*Display Login/Signup Screen*/
     function displayScreen() {
         if (authScreen === 'login'){
-            console.log(navigate.current)
             return(
                 <form className="" onSubmit={(e) => e.preventDefault()}>
                     <h2 className="text-white">Login</h2>
