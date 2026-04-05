@@ -1,8 +1,6 @@
 import { useState, useEffect, useRef } from "react";
-import { useNavigate } from "react-router-dom";
 
 function App() {
-    const navigate = useNavigate();
 
     /*Login Details*/
     const [loginName, setLoginName] = useState(null)
