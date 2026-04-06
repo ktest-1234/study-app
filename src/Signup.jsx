@@ -1,6 +1,10 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useContext } from "react";
 import { NavLink } from "react-router-dom";
+import { AuthContext } from "./AuthContext";
+
 export default function Signup() {
+    const { isAuthenticated, setIsAuthenticated } = useContext(AuthContext);
+
     /*Signup Details*/
     const [signupName, setSignupName] = useState(null)
     const [signupPassword, setSignupPassword] = useState(null)
@@ -20,6 +24,7 @@ export default function Signup() {
           'birthday': signupBirthday,
         }
         console.log(userSignupRef.current)
+        setIsAuthenticated(true);
     }
     return(
             <form className="signup" onSubmit={(e) => e.preventDefault()}>
