@@ -23,17 +23,27 @@ export default function Login() {
         
     }
     return(
-            <form className="" onSubmit={(e) => setLoginInfoRef(e)}>
-                <h2 className="text-white">Login</h2>
-                <h4>Name</h4>
-                <input className="" type='text' onChange={(e) => setLoginName(e.target.value)}></input>
-                <h4>Password</h4>
-                <input className="login-input-password" type='password' onChange={(e) => setLoginPassword(e.target.value)}></input>
-                <br></br>
-                <input className="login-submit" type="submit" ></input>
-                <NavLink to="/signup" className="underline text-green-500">
-                    Don't have an account? Signup here!
-                </NavLink>
+            <form className="grid grid-cols-1 gap-3 place-items-center mt-10 bg-gray-100 p-10 rounded-lg" onSubmit={(e) => setLoginInfoRef(e)}>
+                <div className="mb-[2rem]">
+                    <h2 className="text-2xl font-bold text-gray-800">Login</h2>
+                </div>
+                <div><h4>Name</h4></div>
+                <div className="placeholder:text-center">
+                    <input className="rounded-md border w-[200px] h-[30px]" type='text' onChange={(e) => setLoginName(e.target.value)} placeholder="Enter Your Name...." />
+                </div>
+                <div><h4>Password</h4></div>
+                <div className="placeholder:text-center">
+                    <input className="rounded-md border w-[200px] h-[30px]" type='password' onChange={(e) => setLoginPassword(e.target.value)} placeholder="Enter Your Password...." />
+                </div>
+                <div>
+                    <input className="login-submit" type="submit" />
+                </div>
+                <div>
+                    <NavLink to="/signup" className="">
+                        Don't have an account? Signup here!
+                    </NavLink>
+                </div>
+                
             </form>
     )
 }
