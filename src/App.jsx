@@ -11,9 +11,12 @@ function ProtectedHomeRoute({ isAuthenticated }) {
     const navigate = useNavigate();
 
     useEffect(() => {
-        navigate("/")
+        
         if (!isAuthenticated) {
-            navigate("/login");
+            return <Navigate replace to="/login" />;
+        }
+        else{
+            return <Navigate replace to="/" />;
         }
     }, [isAuthenticated, navigate]);
     return <Outlet />;
@@ -21,7 +24,7 @@ function ProtectedHomeRoute({ isAuthenticated }) {
 
 function App() {
     const { isAuthenticated, setIsAuthenticated } = useContext(AuthContext);
-    useEffect(() => {setIsAuthenticated(true)}, [isAuthenticated, setIsAuthenticated])
+    useEffect(() => {setIsAuthenticated(true)}, [isAuthenticated ,setIsAuthenticated ])
 
     return(
         <>
