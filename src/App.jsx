@@ -1,40 +1,40 @@
 import Login from "./Login";
 import Signup from "./Signup";
 import HomeProfile from "./HomeProfile";
-import { BrowserRouter, Routes, Route, Navigate, useNavigate } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { Outlet } from "react-router-dom";
-import { useEffect } from "react";
 import { useContext } from "react";
 import { AuthContext } from "./AuthContext";
 
-function ProtectedHomeRoute({ isAuthenticated }) {
-    const navigate = useNavigate();
+function ProtectedRoute({ isAuthenticated }) {
+    if (!isAuthenticated) {
+            return <Navigate to="/login" replace />;
+        }
 
-    useEffect(() => {
-        
-        if (!isAuthenticated) {
-            return <Navigate replace to="/login" />;
-        }
-        else{
-            return <Navigate replace to="/" />;
-        }
-    }, [isAuthenticated, navigate]);
+    return <Outlet />;
+}
+
+function PublicRoute({ isAuthenticated }) {
+    if (isAuthenticated) {
+        return <Navigate to="/" replace />;
+    }
     return <Outlet />;
 }
 
 function App() {
     const { isAuthenticated, setIsAuthenticated } = useContext(AuthContext);
-    useEffect(() => {setIsAuthenticated(true)}, [isAuthenticated ,setIsAuthenticated ])
 
     return(
         <>
             <BrowserRouter>
                 <Routes>
-                    <Route element={ <ProtectedHomeRoute isAuthenticated={isAuthenticated} /> }>
+                    <Route element={ <ProtectedRoute isAuthenticated={isAuthenticated} /> }>
                         <Route path="/" element={<HomeProfile />} />
                     </Route>
-                    <Route path="/login" element={<Login />} />
-                    <Route path="/signup" element={<Signup />} />
+                    <Route element={ <PublicRoute isAuthenticated={isAuthenticated} /> }>
+                        <Route path="/login" element={<Login />} />
+                        <Route path="/signup" element={<Signup />} />
+                    </Route>
                 </Routes>
             </BrowserRouter>
         </>

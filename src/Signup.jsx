@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef, useContext } from "react";
+import { useState, useRef, useContext, Navigate } from "react";
 import { NavLink } from "react-router-dom";
 import { AuthContext } from "./AuthContext";
 
@@ -13,6 +13,9 @@ export default function Signup() {
     const [isTC, setIsTC] = useState(false)
     const userSignupRef = useRef(null)
     let signupIsFilled = isTC && !!signupName && !!signupPassword && !!signupBirthday && !!signupEmail
+    if (isAuthenticated){
+        return <Navigate to="/" replace />
+    }
     function setSignupInfoRef(e) {
         e.preventDefault()
         if (!signupIsFilled){
@@ -23,11 +26,10 @@ export default function Signup() {
           'password': signupPassword,
           'birthday': signupBirthday,
         }
-        console.log(userSignupRef.current)
         setIsAuthenticated(true);
     }
     return(
-            <form className="signup" onSubmit={(e) => e.preventDefault()}>
+            <form className="signup" onSubmit={(e) => setSignupInfoRef(e)}>
                 <h2 className="signup-title">Signup</h2>
                 <h4>Your Name</h4>
                 <input className="signup-input-name" type='text' onChange={(e) => setSignupName(e.target.value)}></input>
@@ -42,7 +44,7 @@ export default function Signup() {
                        <input className="TC-checkbox" type="checkbox" checked={isTC} onChange={(e) => setIsTC(e.target.checked)}></input>
                         <h4>I agree to the Terms and Conditions</h4>
                 </label>
-                <input className="signup-submit" type="submit" onClick={(e) => setSignupInfoRef(e)} disabled={!signupIsFilled}></input>
+                <input className="signup-submit" type="submit" disabled={!signupIsFilled}></input>
                 <NavLink to="/login" className="underline text-red-950">
                     Already have an account? Login here!
                 </NavLink>
