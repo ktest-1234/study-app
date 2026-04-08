@@ -1,6 +1,7 @@
 import { useState, useRef, useContext } from "react";
 import { NavLink, Navigate } from "react-router-dom";
 import { AuthContext } from "./AuthContext";
+import { Fi } from "react-icons/fi";
 
 export default function Login() {
     const { isAuthenticated, setIsAuthenticated } = useContext(AuthContext);
@@ -27,19 +28,20 @@ export default function Login() {
                 <div className="mb-[2rem]">
                     <h2 className="text-2xl font-bold text-gray-800">Login</h2>
                 </div>
-                <div><h4>Name</h4></div>
+                <div>
+                    <p className="text-gray-600">Welcome to our study app! Login and have fun!</p>
+                </div>
                 <div className="placeholder:text-center">
                     <input className="rounded-md border w-[200px] h-[30px]" type='text' onChange={(e) => setLoginName(e.target.value)} placeholder="Enter Your Name...." />
                 </div>
-                <div><h4>Password</h4></div>
                 <div className="placeholder:text-center">
-                    <input className="rounded-md border w-[200px] h-[30px]" type='password' onChange={(e) => setLoginPassword(e.target.value)} placeholder="Enter Your Password...." />
+                    <input className="rounded-md border w-[200px] h-[30px] duration-300 " type='password' onChange={(e) => setLoginPassword(e.target.value)} placeholder="Enter Your Password...." />
                 </div>
                 <div>
-                    <input className="login-submit" type="submit" />
+                    <input className="bg-blue-500 hover:bg-blue-700 rounded-md w-[200px] h-[50px] hover:cursor-pointer" type="submit" />
                 </div>
                 <div>
-                    <NavLink to="/signup" className="">
+                    <NavLink to="/signup" className="underline text-blue-500 hover:text-blue-700">
                         Don't have an account? Signup here!
                     </NavLink>
                 </div>
