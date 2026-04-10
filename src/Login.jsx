@@ -1,7 +1,7 @@
 import { useState, useRef, useContext } from "react";
 import { NavLink, Navigate } from "react-router-dom";
 import { AuthContext } from "./AuthContext";
-import { Fi } from "react-icons/fi";
+import { FaUserCircle, FaLock } from "react-icons/fa";
 
 export default function Login() {
     const { isAuthenticated, setIsAuthenticated } = useContext(AuthContext);
@@ -31,11 +31,13 @@ export default function Login() {
                 <div>
                     <p className="text-gray-600">Welcome to our study app! Login and have fun!</p>
                 </div>
-                <div className="placeholder:text-center">
-                    <input className="rounded-md border w-[200px] h-[30px]" type='text' onChange={(e) => setLoginName(e.target.value)} placeholder="Enter Your Name...." />
+                <FaUserCircle className="text-4xl text-gray-500" />
+                <div className="">
+                    <input className="rounded-md border w-[200px] h-[30px] placeholder:text-center" type='text' onChange={(e) => setLoginName(e.target.value)} placeholder="Enter Your Name...." />
                 </div>
-                <div className="placeholder:text-center">
-                    <input className="rounded-md border w-[200px] h-[30px] duration-300 " type='password' onChange={(e) => setLoginPassword(e.target.value)} placeholder="Enter Your Password...." />
+                <FaLock className="text-4xl text-gray-500" />
+                <div className="">
+                    <input className="rounded-md border w-[200px] h-[30px] duration-300 placeholder:text-center" type='password' onChange={(e) => setLoginPassword(e.target.value)} placeholder="Enter Your Password...." />
                 </div>
                 <div>
                     <input className="bg-blue-500 hover:bg-blue-700 rounded-md w-[200px] h-[50px] hover:cursor-pointer" type="submit" />
