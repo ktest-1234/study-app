@@ -3,6 +3,20 @@ import { NavLink, Navigate } from "react-router-dom";
 import { AuthContext } from "./AuthContext";
 import { FaUserCircle, FaLock } from "react-icons/fa";
 
+function Field({ type, placeholder, icon: Icon, onChange }) {
+    return (
+        <div className="relative items-center mt-[1rem] mb-[1rem]">
+            <Icon className="absolute text-2xl text-gray-500" />
+            <input
+                className="ml-8 rounded-md border w-[200px] h-[30px]"
+                type={type}
+                onChange={onChange}
+                placeholder={placeholder}
+            />
+        </div>
+    );
+}
+
 export default function Login() {
     const { isAuthenticated, setIsAuthenticated } = useContext(AuthContext);
 
