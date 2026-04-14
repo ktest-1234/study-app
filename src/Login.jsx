@@ -38,30 +38,35 @@ export default function Login() {
         
     }
     return(
-            <form className="grid grid-cols-1 gap-3 place-items-center mt-10 bg-gray-100 p-10 rounded-lg" onSubmit={(e) => setLoginInfoRef(e)}>
-                <div className="mb-[2rem]">
-                    <h2 className="text-2xl font-bold text-gray-800">Login</h2>
-                </div>
-                <div>
-                    <p className="text-gray-600">Welcome to our study app! Login and have fun!</p>
-                </div>
-                <FaUserCircle className="text-4xl text-gray-500" />
-                <div className="">
-                    <input className="rounded-md border w-[200px] h-[30px] placeholder:text-center" type='text' onChange={(e) => setLoginName(e.target.value)} placeholder="Enter Your Name...." />
-                </div>
-                <FaLock className="text-4xl text-gray-500" />
-                <div className="">
-                    <input className="rounded-md border w-[200px] h-[30px] duration-300 placeholder:text-center" type='password' onChange={(e) => setLoginPassword(e.target.value)} placeholder="Enter Your Password...." />
-                </div>
-                <div>
-                    <input className="bg-blue-500 hover:bg-blue-700 rounded-md w-[200px] h-[50px] hover:cursor-pointer" type="submit" />
-                </div>
-                <div>
-                    <NavLink to="/signup" className="underline text-blue-500 hover:text-blue-700">
-                        Don't have an account? Signup here!
-                    </NavLink>
-                </div>
-                
-            </form>
+            <div className="grid min-h-screen place-items-center">
+                <form className="mt-10 bg-gray-100 p-10 rounded-lg shadow-xl" onSubmit={(e) => setLoginInfoRef(e)}>
+                    <div className="mb-[2rem]">
+                        <h2 className="text-2xl font-bold text-gray-800">Login</h2>
+                    </div>
+                    <div>
+                        <p className="text-gray-600">Welcome to our study app! Login and have fun!</p>
+                    </div>
+                    <Field
+                        type="text"
+                        placeholder="Enter Your Name...."
+                        icon={FaUserCircle}
+                        onChange={(e) => setLoginName(e.target.value)}
+                    />
+                    <Field
+                        type="password"
+                        placeholder="Enter Your Password...."
+                        icon={FaLock}
+                        onChange={(e) => setLoginPassword(e.target.value)}
+                    />
+                    <div>
+                        <input className="bg-blue-500 hover:bg-blue-700 rounded-md w-[200px] h-[50px] hover:cursor-pointer transition-colors duration-50" type="submit" />
+                    </div>
+                    <div className="mt-[1rem]">
+                        <NavLink to="/signup" className=" text-black hover:underline">
+                            Don't have an account? Signup here!
+                        </NavLink>
+                    </div> 
+                </form>
+            </div>
     )
 }
