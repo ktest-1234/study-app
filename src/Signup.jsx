@@ -1,6 +1,7 @@
 import { useState, useRef, useContext, Navigate } from "react";
 import { NavLink } from "react-router-dom";
 import { AuthContext } from "./AuthContext";
+import { FaUser, FaLock, FaCalendar } from "react-icons/fa";
 
 function Field({ type, placeholder, icon: Icon, onChange }) {
     return (
@@ -43,14 +44,27 @@ export default function Signup() {
         setIsAuthenticated(true);
     }
     return(
+        
             <form className="signup" onSubmit={(e) => setSignupInfoRef(e)}>
                 <h2 className="signup-title">Signup</h2>
-                <h4>Your Name</h4>
-                <input className="signup-input-name" type='text' onChange={(e) => setSignupName(e.target.value)}></input>
-                <h4>Your New Password</h4>
-                <input className="signup-input-password" type='password' onChange={(e) => setSignupPassword(e.target.value)}></input>
-                <h4>Your Birthday</h4>
-                <input className="signup-input-birthday" type='date' onChange={(e) => setSignupBirthday(e.target.value)}></input>
+                <Field
+                    type="text"
+                    placeholder="Your Name"
+                    icon={FaUser}
+                    onChange={(e) => setSignupName(e.target.value)}
+                />
+                <Field
+                    type="password"
+                    placeholder="Your New Password"
+                    icon={FaLock}
+                    onChange={(e) => setSignupPassword(e.target.value)}
+                />
+                <Field
+                    type="date"
+                    placeholder="Your Birthday"
+                    icon={FaCalendar}
+                    onChange={(e) => setSignupBirthday(e.target.value)}
+                />
                 <h4>Your Email</h4>
                 <input className="signup-input-birthday" type='email' onChange={(e) => setSignupEmail(e.target.value)}></input>
                 <br />

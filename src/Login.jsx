@@ -8,7 +8,7 @@ function Field({ type, placeholder, icon: Icon, onChange }) {
         <div className="relative items-center mt-[1rem] mb-[1rem]">
             <Icon className="absolute text-2xl text-gray-500" />
             <input
-                className="ml-8 rounded-md border w-[200px] h-[30px]"
+                className="ml-8 rounded-md border w-[200px] h-[30px] px-2"
                 type={type}
                 onChange={onChange}
                 placeholder={placeholder}
@@ -38,7 +38,7 @@ export default function Login() {
         
     }
     return(
-            <div className="grid min-h-screen place-items-center">
+            <div className="grid min-h-screen place-items-center bg-gradient-to-tr from-blue-500 to-blue-200">
                 <form className="mt-10 bg-gray-100 p-10 rounded-lg shadow-xl" onSubmit={(e) => setLoginInfoRef(e)}>
                     <div className="mb-[2rem]">
                         <h2 className="text-2xl font-bold text-gray-800">Login</h2>
@@ -48,18 +48,18 @@ export default function Login() {
                     </div>
                     <Field
                         type="text"
-                        placeholder="Enter Your Name...."
+                        placeholder="Username or Email"
                         icon={FaUserCircle}
                         onChange={(e) => setLoginName(e.target.value)}
                     />
                     <Field
                         type="password"
-                        placeholder="Enter Your Password...."
+                        placeholder="Your Password"
                         icon={FaLock}
                         onChange={(e) => setLoginPassword(e.target.value)}
                     />
                     <div>
-                        <input className="bg-blue-500 hover:bg-blue-700 rounded-md w-[200px] h-[50px] hover:cursor-pointer transition-colors duration-50" type="submit" />
+                        <input className="bg-blue-500 hover:bg-blue-600 rounded-md w-[300px] h-[50px] hover:cursor-pointer transition-colors duration-100" type="submit" />
                     </div>
                     <div className="mt-[1rem]">
                         <NavLink to="/signup" className=" text-black hover:underline">
