@@ -2,6 +2,20 @@ import { useState, useRef, useContext, Navigate } from "react";
 import { NavLink } from "react-router-dom";
 import { AuthContext } from "./AuthContext";
 
+function Field({ type, placeholder, icon: Icon, onChange }) {
+    return (
+        <div className="relative items-center mt-[1rem] mb-[1rem]">
+            <Icon className="absolute text-2xl text-gray-500" />
+            <input
+                className="ml-8 rounded-md border w-[200px] h-[30px] px-2"
+                type={type}
+                onChange={onChange}
+                placeholder={placeholder}
+            />
+        </div>
+    );
+}
+
 export default function Signup() {
     const { isAuthenticated, setIsAuthenticated } = useContext(AuthContext);
 
