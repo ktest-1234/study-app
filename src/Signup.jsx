@@ -1,7 +1,8 @@
 import { useState, useRef, useContext, Navigate } from "react";
 import { NavLink } from "react-router-dom";
 import { AuthContext } from "./AuthContext";
-import { FaUser, FaLock, FaCalendar } from "react-icons/fa";
+import { FaUser, FaLock, FaCalendar, FaEnvelopeOpen } from "react-icons/fa";
+import { motion as m } from 'framer-motion'
 
 function Field({ type, placeholder, icon: Icon, onChange }) {
     return (
@@ -28,55 +29,76 @@ export default function Signup() {
     const [isTC, setIsTC] = useState(false)
     const userSignupRef = useRef(null)
     let signupIsFilled = isTC && !!signupName && !!signupPassword && !!signupBirthday && !!signupEmail
+
     if (isAuthenticated){
         return <Navigate to="/" replace />
     }
     function setSignupInfoRef(e) {
         e.preventDefault()
-        if (!signupIsFilled){
-            return
+        if (signupIsFilled){
+            userSignupRef.current = {
+                'name': signupName,
+                'password': signupPassword,
+                'birthday': signupBirthday,
+            }
+            setIsAuthenticated(true);
         }
-        userSignupRef.current = {
-          'name': signupName,
-          'password': signupPassword,
-          'birthday': signupBirthday,
-        }
-        setIsAuthenticated(true);
+        
     }
     return(
-        
-            <form className="signup" onSubmit={(e) => setSignupInfoRef(e)}>
-                <h2 className="signup-title">Signup</h2>
-                <Field
-                    type="text"
-                    placeholder="Your Name"
-                    icon={FaUser}
-                    onChange={(e) => setSignupName(e.target.value)}
-                />
-                <Field
-                    type="password"
-                    placeholder="Your New Password"
-                    icon={FaLock}
-                    onChange={(e) => setSignupPassword(e.target.value)}
-                />
-                <Field
-                    type="date"
-                    placeholder="Your Birthday"
-                    icon={FaCalendar}
-                    onChange={(e) => setSignupBirthday(e.target.value)}
-                />
-                <h4>Your Email</h4>
-                <input className="signup-input-birthday" type='email' onChange={(e) => setSignupEmail(e.target.value)}></input>
-                <br />
-                <label>
-                       <input className="TC-checkbox" type="checkbox" checked={isTC} onChange={(e) => setIsTC(e.target.checked)}></input>
+        <div className="grid min-h-screen place-items-center bg-gradient-to-tr from-purple-500 to-purple-200">
+            <m.div
+                initial={{ opacity: 0, scale: 0.5 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{
+                    duration: 0.4,
+                    scale: { type: "spring", visualDuration: 0.4, bounce: 0.45 },
+                }}
+            >
+                <form className="mt-10 bg-gray-100 p-10 rounded-lg shadow-xl" onSubmit={(e) => setSignupInfoRef(e)}>
+                    <div className="mb-[2rem]">
+                        <h2 className="text-2xl font-bold text-gray-800">Signup</h2>
+                    </div>
+                    <div>
+                        <h4>Sign up to begin your journey!</h4>
+                    </div>
+                    <Field
+                        type="text"
+                        placeholder="Your Name"
+                        icon={FaUser}
+                        onChange={(e) => setSignupName(e.target.value)}
+                    />
+                    <Field
+                        type="password"
+                        placeholder="Your New Password"
+                        icon={FaLock}
+                        onChange={(e) => setSignupPassword(e.target.value)}
+                    />
+                    <Field
+                        type="date"
+                        placeholder="Your Birthday"
+                        icon={FaCalendar}
+                        onChange={(e) => setSignupBirthday(e.target.value)}
+                    />
+                    <Field 
+                        type="email"
+                        placeholder="Your Email"
+                        icon={FaEnvelopeOpen}
+                        onChange={(e) => setSignupEmail(e.target.value)}
+                    />
+                    <label className="flex flex-row [&>*]:mr-1 mb-10">
+                        <input className="TC-checkbox" type="checkbox" checked={isTC} onChange={(e) => setIsTC(e.target.checked)}></input>
                         <h4>I agree to the Terms and Conditions</h4>
-                </label>
-                <input className="signup-submit" type="submit" disabled={!signupIsFilled}></input>
-                <NavLink to="/login" className="underline text-red-950">
-                    Already have an account? Login here!
-                </NavLink>
-            </form>
+                    </label>
+                    <input className="bg-purple-500 hover:bg-purple-600 rounded-md w-[300px] h-[50px] hover:cursor-pointer transition-colors duration-100" type="submit" disabled={!signupIsFilled}></input>
+                    <div className="mt-[1rem]">
+                    <NavLink to="/login" className="mt-10 text-black hover:underline">
+                        Already have an account? Login here!
+                    </NavLink>
+                    </div>
+                </form>
+            </m.div>
+        </div>
     )
 
 }

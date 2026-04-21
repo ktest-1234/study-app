@@ -4,11 +4,13 @@ import { AuthProvider } from "./AuthContext";
 
 import './index.css'
 import App from './App.jsx'
+import Test from './test.jsx'
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
     <AuthProvider>
       <App />
     </AuthProvider>
-  </StrictMode>,
+  </StrictMode>
+  //<Test></Test>,
 )

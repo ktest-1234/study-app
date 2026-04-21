@@ -25,7 +25,6 @@ function App() {
     const { isAuthenticated, setIsAuthenticated } = useContext(AuthContext);
 
     return(
-        <>
             <BrowserRouter>
                 <Routes>
                     <Route element={ <ProtectedRoute isAuthenticated={isAuthenticated} /> }>
@@ -37,7 +36,6 @@ function App() {
                     </Route>
                 </Routes>
             </BrowserRouter>
-        </>
     )
 }
 export default App
