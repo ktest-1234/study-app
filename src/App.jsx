@@ -25,17 +25,17 @@ function App() {
     const { isAuthenticated, setIsAuthenticated } = useContext(AuthContext);
 
     return(
-            <BrowserRouter>
-                <Routes>
-                    <Route element={ <ProtectedRoute isAuthenticated={isAuthenticated} /> }>
-                        <Route path="/" element={<HomeProfile />} />
-                    </Route>
-                    <Route element={ <PublicRoute isAuthenticated={isAuthenticated} /> }>
-                        <Route path="/login" element={<Login />} />
-                        <Route path="/signup" element={<Signup />} />
-                    </Route>
-                </Routes>
-            </BrowserRouter>
+        <BrowserRouter>
+            <Routes>
+                <Route element={ <ProtectedRoute isAuthenticated={isAuthenticated} /> }>
+                    <Route path="/" element={<HomeProfile />} />
+                </Route>
+                <Route element={ <PublicRoute isAuthenticated={isAuthenticated} /> }>
+                    <Route path="/login" element={<Login />} />
+                    <Route path="/signup" element={<Signup />} />
+                </Route>
+            </Routes>
+        </BrowserRouter>
     )
 }
 export default App
