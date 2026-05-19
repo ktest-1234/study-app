@@ -1,4 +1,4 @@
-#Modules
+# Modules
 from gemini_api import ask_and_get_info
 
 """
