@@ -28,7 +28,7 @@ DEBUG = True
 ALLOWED_HOSTS = []
 
 #Custom User
-AUTH_USER_MODEL = 'auth_app.StudyUser'
+
 
 # Application definition
 
@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     "corsheaders",
     "auth_app",
+    "rest_framework"
 ]
 
 MIDDLEWARE = [

@@ -24,19 +24,18 @@ export default function Login() {
     /*Login Details*/
     const [loginName, setLoginName] = useState(null)
     const [loginPassword, setLoginPassword] = useState(null)
-    const loginRef = useRef(null)
     if (isAuthenticated){
         return <Navigate to="/" replace />
     }
-    function setLoginInfoRef(e) {
-        e.preventDefault()
-        
-        loginRef.current = {
-          'name': loginName,
-          'password': loginPassword,
-        }
-        setIsAuthenticated(true);
-        
+    async function handleLogin(e) {
+        fetch("http://localhost:8000/api/login/",{
+            method:'POST',
+            headers:{
+                'Content-Type':'application/json'
+            },
+            body:`{'loginName':${loginName}, 'loginPassword':${loginPassword}}`
+            }
+        ).then((res) => res.json()).then(data => console.log(data))
     }
     return(
             <div className="grid min-h-screen place-items-center bg-gradient-to-tr from-blue-500 to-blue-200">
@@ -48,7 +47,7 @@ export default function Login() {
                         scale: { type: "spring", visualDuration: 0.4, bounce: 0.45 },
                     }}
                 >   
-                    <form className="mt-10 bg-gray-100 p-10 rounded-lg shadow-xl" onSubmit={(e) => setLoginInfoRef(e)}>
+                    <form className="mt-10 bg-gray-100 p-10 rounded-lg shadow-xl" onSubmit={(e) => handleLogin(e)}>
                         <div className="mb-[2rem]">
                             <h2 className="text-2xl font-bold text-gray-800">Login</h2>
                         </div>
