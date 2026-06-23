@@ -41,8 +41,11 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     "corsheaders",
     "auth_app",
-    "rest_framework"
+    "channels",
 ]
+
+WSGI_APPLICATION = 'myproject.wsgi.application'
+ASGI_APPLICATION = 'myproject.asgi.application' 
 
 MIDDLEWARE = [
     "corsheaders.middleware.CorsMiddleware",
