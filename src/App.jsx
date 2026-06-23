@@ -53,23 +53,17 @@ function PublicRoute({ isAuthenticated }) {
 function App() {
     const [received, setReceived] = useState("");
 
-    useEffect(() => {
-        console.log("fetch started");
+    const socket = new WebSocket("ws://127.0.0.1:8000/ws/chat/");
 
-        fetch("https://solid-adventure-wvxxjxw5rxxf9594-8000.app.github.dev/test")
-            .then(response => {
-                console.log("response:", response);
-                return response.json();
-            })
-            .then(data => {
-                console.log("data:", data);
-                setReceived(data.message);
-            })
-            .catch(error => {
-                console.log("error:", error);
-            });
+        socket.onmessage = function(e) {
+            console.log(JSON.parse(e))
+        };
 
-    }, []);
+        function sendMessage() {
+            socket.send(JSON.stringify({
+                'message': 'hello this is react sending some info'
+            }));
+        }
 
     return (
         <div>

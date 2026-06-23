@@ -1,10 +1,4 @@
-from django.http import JsonResponse
+from django.shortcuts import render
 
 def test_view(request):
-    response = JsonResponse({
-        "message": "Hello from Django"
-    })
-
-    response["Access-Control-Allow-Origin"] = "*"
-
-    return response
+    return render(request, 'test.html')
