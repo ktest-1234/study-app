@@ -11,8 +11,10 @@ https://docs.djangoproject.com/en/6.0/ref/settings/
 """
 
 from pathlib import Path
+import os
+from dotenv import load_dotenv
 
-from corsheaders.defaults import default_methods
+load_dotenv()
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -29,13 +31,11 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
-#Custom User
-
-
 # Application definition
 
 INSTALLED_APPS = [
     "daphne",
+    "channels",
     "django.contrib.admin",
     "django.contrib.auth",
     "django.contrib.contenttypes",
@@ -43,14 +43,11 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     "auth_app",
-    "channels",
 ]
 
-WSGI_APPLICATION = 'myproject.wsgi.application'
 ASGI_APPLICATION = 'django_study_project.asgi.application' 
 
 MIDDLEWARE = [
-    "corsheaders.middleware.CorsMiddleware",
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",
@@ -59,13 +56,6 @@ MIDDLEWARE = [
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
 ]
-
-CORS_ALLOW_METHODS = default_methods
-
-CORS_ALLOW_ALL_ORIGINS = True
-
-CORS_ALLOW_CREDENTIALS = True
-
 ROOT_URLCONF = "django_study_project.urls"
 
 TEMPLATES = [
@@ -83,9 +73,6 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = "django_study_project.wsgi.application"
-
-
 # Database
 # https://docs.djangoproject.com/en/6.0/ref/settings/#databases
 
@@ -96,6 +83,18 @@ DATABASES = {
     }
 }
 
+#channel layers
+
+REDIS_URL = os.getenv('REDIS_URL', "redis://127.0.0.1:6379/0")
+
+CHANNEL_LAYERS = {
+    'default':{
+        'BACKEND':'channel_redis.core.RedisChannelLayer',
+        'CONFIG':{
+            'hosts':[REDIS_URL]
+        }
+    }
+}
 
 # Password validation
 # https://docs.djangoproject.com/en/6.0/ref/settings/#auth-password-validators

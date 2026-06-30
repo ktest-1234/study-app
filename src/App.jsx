@@ -52,18 +52,25 @@ function PublicRoute({ isAuthenticated }) {
 
 function App() {
     const [received, setReceived] = useState("");
+    const accessUserID = null
+    const socket = useRef(null)
+    useEffect(() => {
+        socket.current = new WebSocket(`ws://127.0.0.1:8000/ws/chat/${accessUserID}/`);
 
-    const socket = new WebSocket("ws://127.0.0.1:8000/ws/chat/");
-
-        socket.onmessage = function(e) {
-            console.log(JSON.parse(e))
+        socket.onopen = () => {
+            console.log("Websocket connection opened:", socket.current);
         };
 
-        function sendMessage() {
-            socket.send(JSON.stringify({
-                'message': 'hello this is react sending some info'
-            }));
-        }
+        socket.onerror = (error) => {
+            console.log("Websocket error:", error);
+        };
+
+        socket.onclose = (event) => {
+            console.log("Websocket connection closed:", event);
+        };
+    },[accessUserID]);
+
+    useEffect
 
     return (
         <div>
