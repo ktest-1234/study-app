@@ -5,7 +5,7 @@ import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { Outlet } from "react-router-dom";
 import { useContext } from "react";
 import { AuthContext } from "./AuthContext";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 
 function ProtectedRoute({ isAuthenticated }) {
     if (!isAuthenticated) {
