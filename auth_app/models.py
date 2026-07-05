@@ -10,3 +10,12 @@ class StudyUser(AbstractBaseUser):
     email = models.EmailField(null=True, unique=True)
 
     USERNAME_FIELD = "user_id"
+    REQUIRED_FIELDS = ['username', 'password']
+
+
+class Profile(models.Model):
+    profile_name = models.TextField(max_length='20' unique=True)
+    profile_pic = models.ImageField(null=True)
+    profile_description = models.TextField(max_length='2000', null=True)
+
+
