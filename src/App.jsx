@@ -26,13 +26,25 @@ function App() {
     const { isAuthenticated, setIsAuthenticated } = useContext(AuthContext);
     const [received, setReceived] = useState('');
 
+    async function fetchUsers(params) {
+        try{
+            const response = await fetch('https://solid-adventure-wvxxjxw5rxxf9594-5173.app.github.dev/auth/users')
+            if (!response.ok){
+                console.error(`An HTTP error occured with code ${response.status}`)
+            }
+
+            const data = await response.json()
+            console.log(data)
+        }
+        catch(error){
+            console.error(`An error occured ${error}`)
+        }
+    }
+
     useEffect(() => {
-        fetch('http://127.0.0.1:8000/test/')
-            .then(response => response.json())
-            .then(data => {
-                setReceived(data.message);
-            });
-    }, []);
+        fetchUsers()
+    }, [])
+
 
     return(
         
