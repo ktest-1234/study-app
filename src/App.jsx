@@ -6,6 +6,7 @@ import { Outlet } from "react-router-dom";
 import { useContext } from "react";
 import { AuthContext } from "./AuthContext";
 import { useEffect, useState, useRef } from "react";
+import { fetchData } from './fetch_api.js'
 
 function ProtectedRoute({ isAuthenticated }) {
     if (!isAuthenticated) {
@@ -25,34 +26,6 @@ function PublicRoute({ isAuthenticated }) {
 function App() {
     const { isAuthenticated, setIsAuthenticated } = useContext(AuthContext);
     const [received, setReceived] = useState('');
-
-    useEffect(() => {
-    async function fetchUsers() {
-        try {
-            const response = await fetch('https://solid-adventure-wvxxjxw5rxxf9594-8000.app.github.dev/auth/users/')
-            
-            if (!response.ok) {
-                // 1. Log the HTTP status code
-                console.error(`An HTTP error occurred with code ${response.status}`);
-                
-                // 2. Log the HTML body text to see the exact server error page
-                const errorText = await response.text();
-                console.error("Server Error HTML:", errorText);
-                return; // Stop execution here
-            }
-
-            // This only runs if status code is 200-299
-            console.log(`Status code ${response.status}`);
-            const data = await response.json();
-            console.log(data);
-        }
-        catch (error) {
-            console.error(`An error occurred ${error}`);
-        }
-    }
-    fetchUsers();
-}, []);
-
 
     return(
         
