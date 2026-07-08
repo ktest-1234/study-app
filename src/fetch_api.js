@@ -21,3 +21,22 @@ export async function fetchData(path){
             console.error(`An error occurred when fetching: ${error}`);
         }
 };
+
+export async function postData(infoToSend){
+    const postBody = {
+        method: 'POST',
+        headers: {'Content-Type':'application/json'},
+        body: JSON.stringify(infoToSend),
+    }
+    try{
+        const request = await fetch('https://solid-adventure-wvxxjxw5rxxf9594-8000.app.github.dev', postBody);
+        if (!request.ok){
+            console.log('Error when doing POST request', request.status)
+        }
+        const data = await request.json()
+        return data
+    }
+    catch(error){
+        console.log(`An error occured: ${error}`);
+    }
+}

@@ -2,7 +2,8 @@ import { useState, useRef, useContext, Navigate } from "react";
 import { NavLink } from "react-router-dom";
 import { AuthContext } from "./AuthContext";
 import { FaUser, FaLock, FaCalendar, FaEnvelopeOpen } from "react-icons/fa";
-import { motion as m } from 'framer-motion'
+import { motion as m } from 'framer-motion';
+import { postData } from './fetch_api.js'
 
 function Field({ type, placeholder, icon: Icon, onChange }) {
     return (
@@ -27,21 +28,22 @@ export default function Signup() {
     const [signupBirthday, setSignupBirthday] = useState(null)
     const [signupEmail, setSignupEmail] = useState(null)
     const [isTC, setIsTC] = useState(false)
-    const userSignupRef = useRef(null)
     let signupIsFilled = isTC && !!signupName && !!signupPassword && !!signupBirthday && !!signupEmail
 
     if (isAuthenticated){
         return <Navigate to="/" replace />
     }
-    function setSignupInfoRef(e) {
+    function handleSignupSubmit(e) {
         e.preventDefault()
         if (signupIsFilled){
-            userSignupRef.current = {
-                'name': signupName,
+            async get
+            await postData({
+                'username': signupName,
                 'password': signupPassword,
+                'email':signupEmail,
                 'birthday': signupBirthday,
-            }
-            setIsAuthenticated(true);
+            });
+            console.log(data)
         }
         
     }
@@ -55,7 +57,7 @@ export default function Signup() {
                     scale: { type: "spring", visualDuration: 0.4, bounce: 0.45 },
                 }}
             >
-                <form className="mt-10 bg-gray-100 p-10 rounded-lg shadow-xl" onSubmit={(e) => setSignupInfoRef(e)}>
+                <form className="mt-10 bg-gray-100 p-10 rounded-lg shadow-xl" onSubmit={(e) => handleSignupSubmit(e)}>
                     <div className="mb-[2rem]">
                         <h2 className="text-2xl font-bold text-gray-800">Signup</h2>
                     </div>
