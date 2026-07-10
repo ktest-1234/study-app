@@ -36,14 +36,17 @@ export default function Signup() {
     function handleSignupSubmit(e) {
         e.preventDefault()
         if (signupIsFilled){
-            async get
-            await postData({
+            const send = async (e) => {
+                const data = await (await postData({
                 'username': signupName,
                 'password': signupPassword,
                 'email':signupEmail,
                 'birthday': signupBirthday,
-            });
-            console.log(data)
+                }))
+                console.log(data)
+            }
+            send()
+            
         }
         
     }
