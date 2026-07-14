@@ -6,7 +6,7 @@ import { Outlet } from "react-router-dom";
 import { useContext } from "react";
 import { AuthContext } from "./AuthContext";
 import { useEffect, useState, useRef } from "react";
-import { fetchData } from './fetch_api.js'
+import { retrieveData } from './fetch_api.js'
 
 function ProtectedRoute({ isAuthenticated }) {
     if (!isAuthenticated) {

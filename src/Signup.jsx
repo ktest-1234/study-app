@@ -37,13 +37,18 @@ export default function Signup() {
         e.preventDefault()
         if (signupIsFilled){
             const send = async (e) => {
-                const data = await (await postData({
-                'username': signupName,
-                'password': signupPassword,
-                'email':signupEmail,
-                'birthday': signupBirthday,
-                }))
-                console.log(data)
+                const response = await postData({
+                username: signupName,
+                password: signupPassword,
+                email:signupEmail,
+                birthday: signupBirthday,
+                }, 'api/users/register')
+
+                data
+                if (response.ok) {
+                    localStorage.setItem('refreshToken', data.tokens.refresh);
+                    localStorage.setItem('accessToken', data.tokens.access);
+                }
             }
             send()
             

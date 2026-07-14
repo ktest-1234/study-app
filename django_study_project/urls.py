@@ -19,15 +19,19 @@ from django.contrib import admin
 from django.urls import path, include, re_path
 from django.views.generic import TemplateView
 from rest_framework.routers import DefaultRouter
-from auth_app.urls import user_router, profile_router
+from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
+from auth_app.urls import user_router, profile_router, register_router
 from django.urls import path, include
 
 router = DefaultRouter()
 router.registry.extend(user_router.registry)
 router.registry.extend(profile_router.registry)
+router.registry.extend(register_router.registry)
 
 urlpatterns = [
-    path('', include(router.urls)),
+    path('api/', include(router.urls)),
     path('admin/', admin.site.urls),
-    re_path(r'^.*$', TemplateView.as_view(template_name='index.html'), name='index')
+    re_path(r'^.*$', TemplateView.as_view(template_name='index.html'), name='index'),
+    path('api/token/obtain', TokenObtainPairView.as_view(), name='token_obtain'),
+    path('api/token/refresh', TokenRefreshView.as_view(), name='token_refresh'),
 ]
