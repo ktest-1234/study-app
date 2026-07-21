@@ -20,13 +20,12 @@ from django.urls import path, include, re_path
 from django.views.generic import TemplateView
 from rest_framework.routers import DefaultRouter
 from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
-from auth_app.urls import user_router, profile_router, register_router
+from auth_app.urls import user_router, profile_router
 from django.urls import path, include
 
 router = DefaultRouter()
 router.registry.extend(user_router.registry)
 router.registry.extend(profile_router.registry)
-router.registry.extend(register_router.registry)
 
 urlpatterns = [
     path('api/', include(router.urls)),

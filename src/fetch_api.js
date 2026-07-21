@@ -1,4 +1,4 @@
-export async function retrieveData(path){
+export async function handleRetrieveData(path){
     try {
             const response = await fetch(`https://solid-adventure-wvxxjxw5rxxf9594-8000.app.github.dev/${path}/`)
             
@@ -22,14 +22,14 @@ export async function retrieveData(path){
         }
 };
 
-export async function postData(infoToSend, path){
-    const postHeader = {
+export async function handlePostData(infoToSend, path){
+    const postData = {
         method: 'POST',
         headers: {'Content-Type':'application/json'},
         body: JSON.stringify(infoToSend),
     }
     try{
-        const request = await fetch(`https://solid-adventure-wvxxjxw5rxxf9594-8000.app.github.dev/${path}/`, postHeader);
+        const request = await fetch(`https://solid-adventure-wvxxjxw5rxxf9594-8000.app.github.dev/${path}/`, postData);
         if (!request.ok){
             console.log('Error when doing POST request', request.status)
         }

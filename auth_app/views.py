@@ -8,7 +8,6 @@ from rest_framework.response import Response
 from .models import Profile, User
 from .serializer import ProfileSerializer, UserSerializer, RegisterSerializer
 
-
 class UserViewSet(ModelViewSet):
     queryset = User.objects.all()
     serializer_class = UserSerializer
@@ -17,18 +16,7 @@ class UserViewSet(ModelViewSet):
         if self.action == 'create':
             return [AllowAny()]
         return [IsAuthenticated()]
-        
-
-
-class ProfileViewSet(ModelViewSet):
-    queryset = Profile.objects.all()
-    serializer_class = ProfileSerializer
-
-
-class RegisterViewSet(GenericViewSet, CreateModelMixin):
-    queryset = User.objects.all()
-    serializer_class = RegisterSerializer
-
+    
     def create(self, request, *args, **kwargs):
         serializer = self.get_serializer(data=request.data) # gets the serializer class while adding contexts to it
         serializer.is_valid(raise_exception=True) # make sure it is valid 
@@ -48,3 +36,10 @@ class RegisterViewSet(GenericViewSet, CreateModelMixin):
         }, status=HTTP_201_CREATED)
 
         return response
+        
+
+class ProfileViewSet(ModelViewSet):
+    queryset = Profile.objects.all()
+    serializer_class = ProfileSerializer
+
+    

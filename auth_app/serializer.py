@@ -9,22 +9,14 @@ class UserSerializer(ModelSerializer):
         model = User
         fields = ('id', 'username', 'password', 'email')
 
+    def create(self, validated_data):
+        if validated_data['is_staff'] and validated_data['is_superuser']:
+            return UserModel.objects.create_user(**validated_data)
+        else:
+            raise Exception('Must have is_superuser and is_staff to true')
+
 
 class ProfileSerializer(ModelSerializer):
     class Meta:
         model = Profile
         fields = ('id', 'profile_name', 'profile_pic', 'profile_description')
-
-
-class RegisterSerializer(ModelSerializer):
-    class Meta:
-        mdoel = User
-        fields = ('username', 'password')
-
-    def create(self, validated_data):
-        user = User.objects.create_user(
-            username=validated_data['username'],
-            email=validated_data.get('email', ''),
-            password=validated_data['password']
-        )
-        return user
