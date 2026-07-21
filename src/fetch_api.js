@@ -1,6 +1,7 @@
 export async function handleRetrieveData(path){
     try {
-            const response = await fetch(`https://solid-adventure-wvxxjxw5rxxf9594-8000.app.github.dev/${path}/`)
+            const accessToken = localStorage.getItem('accessToken');
+            const response = await fetch(`https://solid-adventure-wvxxjxw5rxxf9594-8000.app.github.dev/${path}`)
             
             if (!response.ok) {
                 // 1. Log the HTTP status code
@@ -17,26 +18,29 @@ export async function handleRetrieveData(path){
             const data = await response.json();
             return data
         }
-        catch (error) {
-            console.error(`An error occurred when fetching: ${error}`);
-        }
+    catch (error) {
+        console.error(`An error occurred when fetching: ${error}`);
+    }
 };
 
 export async function handlePostData(infoToSend, path){
     const postData = {
         method: 'POST',
         headers: {'Content-Type':'application/json'},
+        credentials: 'include',
         body: JSON.stringify(infoToSend),
     }
     try{
-        const request = await fetch(`https://solid-adventure-wvxxjxw5rxxf9594-8000.app.github.dev/${path}/`, postData);
+        const request = await fetch(`https://solid-adventure-wvxxjxw5rxxf9594-8000.app.github.dev/${path}`, postData);
         if (!request.ok){
             console.log('Error when doing POST request', request.status)
+            return null
         }
         const data = await request.json()
         return data
     }
     catch(error){
         console.log(`An error occured: ${error}`);
+        return null
     }
 }

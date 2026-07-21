@@ -36,18 +36,22 @@ export default function Signup() {
     function handleSignupSubmit(e) {
         e.preventDefault()
         if (signupIsFilled){
-            const send = async (e) => {
+            const send = async () => {
                 const response = await handlePostData({
                 username: signupName,
                 password: signupPassword,
                 email:signupEmail,
                 birthday: signupBirthday,
-                }, 'api/users/')
+                is_staff: false,
+                is_superuser: false,
+                is_active: true,
+                }, 'api/auth/users/')
 
-                data
-                if (response.ok) {
-                    localStorage.setItem('refreshToken', data.tokens.refresh);
-                    localStorage.setItem('accessToken', data.tokens.access);
+                console.log(response)
+
+                if (response && response.tokens) {
+                    localStorage.setItem('refreshToken', response.tokens.refresh);
+                    localStorage.setItem('accessToken', response.tokens.access);
                 }
             }
             send()

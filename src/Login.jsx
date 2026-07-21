@@ -37,8 +37,9 @@ export default function Login() {
     useEffect(() => {
         async function getData(){
             try{
-                users.current = await handleRetrieveData('api/auth/users');
-                profiles.current = await handleRetrieveData('api/auth/profiles');
+                users.current = await handleRetrieveData('api/auth/users/');
+                profiles.current = await handleRetrieveData('api/auth/profiles/');
+                console.log(users.current, profiles.current)
             }
             catch(error){
                 console.log(error)

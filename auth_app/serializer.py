@@ -10,6 +10,7 @@ class UserSerializer(ModelSerializer):
         fields = ('id', 'username', 'password', 'email')
 
     def create(self, validated_data):
+        print(f'Validated data : {validated_data}')
         if validated_data['is_staff'] and validated_data['is_superuser']:
             return UserModel.objects.create_user(
                 username=validated_data['username'],
