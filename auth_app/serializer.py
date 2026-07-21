@@ -11,7 +11,11 @@ class UserSerializer(ModelSerializer):
 
     def create(self, validated_data):
         if validated_data['is_staff'] and validated_data['is_superuser']:
-            return UserModel.objects.create_user(**validated_data)
+            return UserModel.objects.create_user(
+                username=validated_data['username'],
+                email=validated_data.get('email', ''),
+                password=validated_data['password']
+            )
         else:
             raise Exception('Must have is_superuser and is_staff to true')
 

@@ -3,7 +3,7 @@ import { NavLink, Navigate } from "react-router-dom";
 import { AuthContext } from "./AuthContext";
 import { FaUserCircle, FaLock, FaEnvelopeOpen } from "react-icons/fa";
 import { getDefaultTransition, motion as m } from 'framer-motion';
-import { retrieveData } from './fetch_api.js';
+import { handleRetrieveData } from './fetch_api.js';
 import { ImKey2 } from "react-icons/im";
 import { FaHeartPulse } from "react-icons/fa6";
 
@@ -37,8 +37,8 @@ export default function Login() {
     useEffect(() => {
         async function getData(){
             try{
-                users.current = await retrieveData('api/auth/users');
-                profiles.current = await retrieveData('api/auth/profiles');
+                users.current = await handleRetrieveData('api/auth/users');
+                profiles.current = await handleRetrieveData('api/auth/profiles');
             }
             catch(error){
                 console.log(error)

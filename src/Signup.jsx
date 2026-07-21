@@ -3,7 +3,7 @@ import { NavLink } from "react-router-dom";
 import { AuthContext } from "./AuthContext";
 import { FaUser, FaLock, FaCalendar, FaEnvelopeOpen } from "react-icons/fa";
 import { motion as m } from 'framer-motion';
-import { postData } from './fetch_api.js'
+import { handlePostData } from './fetch_api.js'
 
 function Field({ type, placeholder, icon: Icon, onChange }) {
     return (
@@ -37,12 +37,12 @@ export default function Signup() {
         e.preventDefault()
         if (signupIsFilled){
             const send = async (e) => {
-                const response = await postData({
+                const response = await handlePostData({
                 username: signupName,
                 password: signupPassword,
                 email:signupEmail,
                 birthday: signupBirthday,
-                }, 'api/users/register')
+                }, 'api/users/')
 
                 data
                 if (response.ok) {

@@ -6,7 +6,7 @@ from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework_simplejwt.tokens import RefreshToken
 from rest_framework.response import Response
 from .models import Profile, User
-from .serializer import ProfileSerializer, UserSerializer, RegisterSerializer
+from .serializer import ProfileSerializer, UserSerializer
 
 class UserViewSet(ModelViewSet):
     queryset = User.objects.all()
