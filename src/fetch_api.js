@@ -27,13 +27,12 @@ export async function handlePostData(infoToSend, path){
     const postData = {
         method: 'POST',
         headers: {'Content-Type':'application/json'},
-        credentials: 'include',
         body: JSON.stringify(infoToSend),
     }
     try{
         const request = await fetch(`https://solid-adventure-wvxxjxw5rxxf9594-8000.app.github.dev/${path}`, postData);
         if (!request.ok){
-            console.log('Error when doing POST request', request.status)
+            console.log('Error when doing POST request', request.status, request)
             return null
         }
         const data = await request.json()
