@@ -7,9 +7,10 @@ from django.contrib.auth.models import AbstractBaseUser, BaseUserManager, Permis
 class UserManager(BaseUserManager):
     def create_user(self, email, password=None, **extra_fields):
         email = self.normalize_email(email)
-        user = self.model(email, **extra_fields)
+        user = self.model(email=email, **extra_fields)
         user.set_password(password)
         user.save(using=self._db)
+        print(f"Successfully created user: {user}")
         return user
 
     def create_superuser(self, email, password=None, **extra_fields):
@@ -26,7 +27,7 @@ class UserManager(BaseUserManager):
 
 class User(AbstractBaseUser, PermissionsMixin):
     username = models.TextField(max_length=20, unique=True)
-    pasword = models.CharField(max_length=20, null=False)
+    password = models.CharField(max_length=20, null=False)
     email = models.EmailField(null=True, unique=True)
     is_staff = models.BooleanField(default=False)
     is_active = models.BooleanField(default=True)

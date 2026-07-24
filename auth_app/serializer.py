@@ -1,8 +1,5 @@
 from rest_framework.serializers import ModelSerializer
 from .models import User, Profile
-from django.contrib.auth import get_user_model
-
-UserModel = get_user_model() # Get user model from AUTH_USER_MODEL in settings
 
 class UserSerializer(ModelSerializer):
     class Meta:
@@ -11,15 +8,11 @@ class UserSerializer(ModelSerializer):
 
     def create(self, validated_data):
         print(f'Validated data : {validated_data}')
-        if validated_data['is_staff'] and validated_data['is_superuser']:
-            return UserModel.objects.create_user(
-                username=validated_data['username'],
-                email=validated_data.get('email', ''),
-                password=validated_data['password']
-            )
-        else:
-            raise Exception('Must have is_superuser and is_staff to true')
-
+        return self.Meta.model.objects.create_user(
+            username=validated_data.get('username'),
+            email=validated_data.get('email', ''),
+            password=validated_data.get('password')
+        )
 
 class ProfileSerializer(ModelSerializer):
     class Meta:
