@@ -21,12 +21,11 @@ from django.views.generic import TemplateView
 from django.views.decorators.csrf import csrf_exempt
 from rest_framework.routers import DefaultRouter
 from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
-from auth_app.urls import user_router, profile_router
+from auth_app.urls import auth_router
 from django.urls import path, include
 
 router = DefaultRouter()
-router.registry.extend(user_router.registry)
-router.registry.extend(profile_router.registry)
+router.registry.extend(auth_router.registry)
 
 urlpatterns = [
     path('api/', include(router.urls)),

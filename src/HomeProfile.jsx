@@ -12,7 +12,7 @@ function MoreInfoDropdown({ isHamburgerHovered }) {
         </>
     );
 }
-function Dashboard({children}) {
+function NavigationPanel({children}) {
     const [isHamburgerClicked, setIsHamburgerClicked] = useState(false)
     const [isHamburgerHovered, setIsHamburgerHovered] = useState(false)
     function handleClick(e){
@@ -45,10 +45,10 @@ function Dashboard({children}) {
 }
 export default function HomeProfile() {
     return(
-        <Dashboard>
+        <NavigationPanel>
             <h2>Hello</h2>
             <h2>Hello</h2>
             <h2>Hello</h2>
-        </Dashboard>
+        </NavigationPanel>
     )
 }

@@ -9,10 +9,9 @@ import { useEffect, useState, useRef } from "react";
 import { handleRetrieveData } from './fetch_api.js'
 
 function ProtectedRoute({ isAuthenticated }) {
-    accessToken = localStorage.getItem('accessToken')
-    if (!isAuthenticated || !accessToken) {
+    if (!isAuthenticated) {
             return <Navigate to="/login" replace />;
-        }
+    }
 
     return <Outlet />;
 }
