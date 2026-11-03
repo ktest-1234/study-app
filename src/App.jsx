@@ -10,7 +10,7 @@ import { handleRetrieveData } from './fetch_api.js'
 
 function ProtectedRoute({ isAuthenticated }) {
     accessToken = localStorage.getItem('accessToken')
-    if (!isAuthenticated) {
+    if (!isAuthenticated || !accessToken) {
             return <Navigate to="/login" replace />;
         }
 
@@ -25,7 +25,7 @@ function PublicRoute({ isAuthenticated }) {
 }
 
 function App() {
-    const { isAuthenticated, setIsAuthenticated } = useContext(AuthContext);
+    const {isAuthenticated, setIsAuthenticated} = useContext(AuthContext);
     const [received, setReceived] = useState('');
 
     return(
@@ -43,35 +43,5 @@ function App() {
         </BrowserRouter>
     )
 }
-
-// function App() {
-//     const [received, setReceived] = useState("");
-//     const accessUserID = null
-//     const socket = useRef(null)
-//     useEffect(() => {
-//         socket.current = new WebSocket(`ws://127.0.0.1:8000/ws/chat/${accessUserID}/`);
-
-//         socket.onopen = () => {
-//             console.log("Websocket connection opened:", socket.current);
-//         };
-
-//         socket.onerror = (error) => {
-//             console.log("Websocket error:", error);
-//         };
-
-//         socket.onclose = (event) => {
-//             console.log("Websocket connection closed:", event);
-//         };
-//     },[accessUserID]);
-
-//     useEffect
-
-//     return (
-//         <div>
-//             <h1>Hello</h1>
-//             <h2>{received}</h2>
-//         </div>
-//     );
-// }
 
 export default App
