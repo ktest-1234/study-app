@@ -50,6 +50,7 @@ CORS_ALLOWED_ORIGINS = [
     'https://solid-adventure-wvxxjxw5rxxf9594-5173.app.github.dev',
     'http://localhost:8000',
     'https://solid-adventure-wvxxjxw5rxxf9594-8000.app.github.dev',
+    'http://127.0.0.1:8000',
 ]
 
 MIDDLEWARE = [

@@ -18,20 +18,17 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include, re_path
 from django.views.generic import TemplateView
-from django.views.decorators.csrf import csrf_exempt
-from rest_framework.routers import DefaultRouter
 from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
-from auth_app.urls import auth_router
+
 from django.urls import path, include
 
-router = DefaultRouter()
-router.registry.extend(auth_router.registry)
-
 urlpatterns = [
-    path('api/', include(router.urls)),
     path('admin/', admin.site.urls),
-    
-    re_path(r'^.*$', TemplateView.as_view(template_name='index.html'), name='index'),
-    path('api/token/obtain', TokenObtainPairView.as_view(), name='token_obtain'),
+
+    path('api/token/obtain', TokenObtainPairView.as_view(), name='token_obtain'), # These token views must be put before api/...
     path('api/token/refresh', TokenRefreshView.as_view(), name='token_refresh'),
+
+    path('api/', include('auth_app.urls')),
+    
+    re_path(r'^.*$', TemplateView.as_view(template_name='index.html'), name='index') # This must be last
 ]
