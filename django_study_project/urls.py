@@ -25,10 +25,10 @@ from django.urls import path, include
 urlpatterns = [
     path('admin/', admin.site.urls),
 
-    path('api/token/obtain', TokenObtainPairView.as_view(), name='token_obtain'), # These token views must be put before api/...
-    path('api/token/refresh', TokenRefreshView.as_view(), name='token_refresh'),
+    path('api/token/obtain/', TokenObtainPairView.as_view(), name='token_obtain'), # These token views must be put before api/...
+    path('api/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
 
-    path('api/', include('auth_app.urls')),
+    path('api/auth/', include('auth_app.urls')),
     
     re_path(r'^.*$', TemplateView.as_view(template_name='index.html'), name='index') # This must be last
 ]

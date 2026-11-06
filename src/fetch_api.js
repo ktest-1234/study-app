@@ -1,7 +1,7 @@
 export async function handleRetrieveData(path){
     try {
             const accessToken = localStorage.getItem('accessToken');
-            const response = await fetch(`https://solid-adventure-wvxxjxw5rxxf9594-8000.app.github.dev/${path}`)
+            const response = await fetch(`https://special-invention-4jx7jrw6x74pf5g6r-8000.app.github.dev/${path}`)
             
             if (!response.ok) {
                 // 1. Log the HTTP status code
@@ -30,7 +30,7 @@ export async function handlePostData(infoToSend, path){
         body: JSON.stringify(infoToSend),
     }
     try{
-        const request = await fetch(`https://solid-adventure-wvxxjxw5rxxf9594-8000.app.github.dev/${path}`, postData);
+        const request = await fetch(`https://special-invention-4jx7jrw6x74pf5g6r-8000.app.github.dev/${path}`, postData);
         if (!request.ok){
             console.log('Error when doing POST request', request.status, request)
             return null

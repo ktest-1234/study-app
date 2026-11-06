@@ -45,13 +45,14 @@ INSTALLED_APPS = [
     "auth_app",
 ]
 
-CORS_ALLOWED_ORIGINS = [
-    'http://localhost:5173',
-    'https://solid-adventure-wvxxjxw5rxxf9594-5173.app.github.dev',
-    'http://localhost:8000',
-    'https://solid-adventure-wvxxjxw5rxxf9594-8000.app.github.dev',
-    'http://127.0.0.1:8000',
+# this allows any hosts coming from any domain
+# remember to make sure that fetch_api.js is fetching the same url as this
+ALLOWED_HOSTS = [
+    'localhost',
+    '127.0.0.1',
+    '.app.github.dev',
 ]
+
 
 MIDDLEWARE = [
     'corsheaders.middleware.CorsMiddleware',
