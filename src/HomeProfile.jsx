@@ -1,7 +1,7 @@
 import { FaBars, FaSearch } from 'react-icons/fa'
 import { useState } from 'react'
 
-function MoreInfoDropdown({ isHamburgerHovered }) {
+function MoreInfoDropdown() {
     return (
         <>
             <div className="flex flex-row justify-center items-cemter h-[25vm] py-5 [&>*]:ml-5 bg-blue-200 rounded-md">
@@ -22,12 +22,6 @@ function NavigationPanel({children}) {
         }
         setIsHamburgerClicked(!isHamburgerClicked)
     }
-    function handleMouseEnter(){
-        setIsHamburgerHovered(true)
-    }
-    function handleMouseLeave(){
-        setIsHamburgerHovered(false)
-    }
     return (
         <>
             <nav className="flex flex-row justify-center items-cemter h-[25vm] py-5 [&>*]:ml-5 bg-blue-100 rounded-md">
@@ -38,7 +32,7 @@ function NavigationPanel({children}) {
                 </button>
             </nav>
             {isHamburgerHovered  && (
-                <MoreInfoDropdown isHamburgerHovered={isHamburgerHovered} />
+                <MoreInfoDropdown />
             )}
         </>
     );

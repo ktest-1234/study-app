@@ -1,7 +1,7 @@
 export async function handleRetrieveData(path){
     try {
             const accessToken = localStorage.getItem('accessToken');
-            const response = await fetch(`https://special-invention-4jx7jrw6x74pf5g6r-8000.app.github.dev/${path}`)
+            const response = await fetch(`http://127.0.0.1:8000/${path}`)
             
             if (!response.ok) {
                 // 1. Log the HTTP status code
@@ -10,7 +10,7 @@ export async function handleRetrieveData(path){
                 // 2. Log the HTML body text to see the exact server error page
                 const errorText = await response.text();
                 console.error("Server Error HTML:", errorText);
-                return; // Stop execution here
+                return null; // Stop execution here
             }
 
             // This only runs if status code is 200-299
@@ -30,7 +30,7 @@ export async function handlePostData(infoToSend, path){
         body: JSON.stringify(infoToSend),
     }
     try{
-        const request = await fetch(`https://special-invention-4jx7jrw6x74pf5g6r-8000.app.github.dev/${path}`, postData);
+        const request = await fetch(`http://127.0.0.1:8000/${path}`, postData);
         if (!request.ok){
             console.log('Error when doing POST request', request.status, request)
             return null
