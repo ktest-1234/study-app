@@ -18,7 +18,7 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include, re_path
 from django.views.generic import TemplateView
-from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
+from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView, TokenVerifyView
 
 from django.urls import path, include
 
@@ -27,6 +27,7 @@ urlpatterns = [
 
     path('api/token/obtain/', TokenObtainPairView.as_view(), name='token_obtain'), # These token views must be put before api/...
     path('api/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
+    path('api/token/verify/', TokenVerifyView.as_view(), name='token_verify'),
 
     path('api/auth/', include('auth_app.urls')),
     

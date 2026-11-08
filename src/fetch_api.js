@@ -1,4 +1,4 @@
-export async function handleRetrieveData(path){
+export async function handleGetRequest(path){
     try {
             const accessToken = localStorage.getItem('accessToken');
             const response = await fetch(`http://127.0.0.1:8000/${path}`)
@@ -23,19 +23,40 @@ export async function handleRetrieveData(path){
     }
 };
 
-export async function handlePostData(infoToSend, path){
+export async function handlePostRequest(request, path){
     const postData = {
         method: 'POST',
         headers: {'Content-Type':'application/json'},
-        body: JSON.stringify(infoToSend),
+        body: JSON.stringify(request),
     }
     try{
-        const request = await fetch(`http://127.0.0.1:8000/${path}`, postData);
-        if (!request.ok){
-            console.log('Error when doing POST request', request.status, request)
+        const response = await fetch(`http://127.0.0.1:8000/${path}`, postData);
+        if (!response.ok){
+            console.log('Error when doing POST request', response.status, response)
             return null
         }
-        const data = await request.json()
+        const data = await response.json()
+        return data
+    }
+    catch(error){
+        console.log(`An error occured: ${error}`);
+        return null
+    }
+}
+
+export async function handleAuthenticatedPostRequest(token, path){
+    const postData = {
+        method: 'POST',
+        headers: {'Content-Type':'application/json', 'Authorization': `Bearer ${token}`},
+        body: JSON.stringify({ key: 'value' }),
+    }
+    try{
+        const response = await fetch(`http://127.0.0.1:8000/${path}`, postData);
+        if (!response.ok){
+            console.log('Error when doing POST request', response.status, response)
+            return null
+        }
+        const data = await response.json()
         return data
     }
     catch(error){

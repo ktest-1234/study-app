@@ -3,7 +3,7 @@ import { NavLink } from "react-router-dom";
 import { AuthContext } from "./AuthContext";
 import { FaUser, FaLock, FaCalendar, FaEnvelopeOpen } from "react-icons/fa";
 import { motion as m } from 'framer-motion';
-import { handlePostData } from './fetch_api.js'
+import { handlePostRequest } from './fetch_api.js'
 
 function Field({ type, placeholder, icon: Icon, onChange }) {
     return (
@@ -20,7 +20,7 @@ function Field({ type, placeholder, icon: Icon, onChange }) {
 }
 
 export default function Signup() {
-    const { isAuthenticated, setIsAuthenticated } = useContext(AuthContext);
+    const { authState, setIsAuthenticated, setTokens } = useContext(AuthContext);
 
     /*Signup Details*/
     const [signupName, setSignupName] = useState(null)
@@ -30,14 +30,14 @@ export default function Signup() {
     const [isTC, setIsTC] = useState(false)
     let signupIsFilled = isTC && !!signupName && !!signupPassword && !!signupBirthday && !!signupEmail
 
-    if (isAuthenticated){
+    if (authState.isAuthenticated){
         return <Navigate to="/" replace />
     }
     function handleSignupSubmit(e) {
         e.preventDefault()
         if (signupIsFilled){
             const send = async () => {
-                const response = await handlePostData({
+                const response = await handlePostRequest({
                 username: signupName,
                 password: signupPassword,
                 email:signupEmail,
@@ -50,8 +50,10 @@ export default function Signup() {
                 console.log(response)
 
                 if (response && response.tokens) {
-                    localStorage.setItem('refreshToken', response.tokens.refresh);
-                    localStorage.setItem('accessToken', response.tokens.access);
+                    setTokens({
+                        accessToken: response.tokens.access,
+                        refreshToken: response.tokens.refresh,
+                    })
                 }
             }
             send()

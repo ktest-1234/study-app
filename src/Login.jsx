@@ -1,11 +1,9 @@
 import { useState, useRef, useContext, useEffect } from "react";
 import { NavLink, Navigate } from "react-router-dom";
 import { AuthContext } from "./AuthContext";
-import { FaUserCircle, FaLock, FaEnvelopeOpen } from "react-icons/fa";
-import { getDefaultTransition, motion as m } from 'framer-motion';
-import { handleRetrieveData } from './fetch_api.js';
-import { ImKey2 } from "react-icons/im";
-import { FaHeartPulse } from "react-icons/fa6";
+import { FaUserCircle, FaLock } from "react-icons/fa";
+import { motion as m } from 'framer-motion';
+import { handleGetRequest, handlePostRequest } from './fetch_api.js';
 
 function Field({ type, placeholder, icon: Icon, onChange }) {
     return (
@@ -22,7 +20,7 @@ function Field({ type, placeholder, icon: Icon, onChange }) {
 }
 
 export default function Login() {
-    const { isAuthenticated, setIsAuthenticated } = useContext(AuthContext);
+    const { authState, setIsAuthenticated, setTokens } = useContext(AuthContext);
 
     /*Login Details*/
     const [loginName, setLoginName] = useState(null);
@@ -30,16 +28,13 @@ export default function Login() {
     const [loginSuccessful, setLoginSuccessful] = useState(0)
     const users = useRef(null);
     const profiles = useRef(null);
-    if (isAuthenticated){
-        return <Navigate to="/" replace />
-    }
 
     useEffect(() => {
         async function getData(){
             try{
-                users.current = await handleRetrieveData('api/auth/users/');
-                profiles.current = await handleRetrieveData('api/auth/profiles/');
-                console.log(users.current, profiles.current)
+                users.current = await handleGetRequest('api/auth/users/');
+                profiles.current = await handleGetRequest('api/auth/profiles/');
+                console.log(users.current, profiles.current);
             }
             catch(error){
                 console.log(error)
@@ -47,6 +42,28 @@ export default function Login() {
         };
         getData()
     }, [])
+
+    async function obtainNewTokens(username, password){
+        try{
+            const response = await handlePostRequest(
+                {
+                    username: username,
+                    password: password,
+                },'api/token/obtain/'
+            );
+            if (!response.ok){
+                console.error('Error occured when trying to obtain new pair of tokens');
+                return;
+            }
+            setTokens({
+                accessToken: response.tokens.access,
+                refreshToken: response.tokens.refresh,
+            })
+        }
+        catch(error){
+            console.error(error)
+        }
+        }
 
     function IncorrectUsernameOrPasswordText(){
         if (loginSuccessful === -1){
@@ -60,6 +77,7 @@ export default function Login() {
             if (value['username'] === loginName && value['password'] === loginPassword){
                 setIsAuthenticated(true);
                 setLoginSuccessful(1);
+                obtainNewTokens(value['username'], value['password'])
             }
             else{
                 setLoginSuccessful(-1);
