@@ -1,26 +1,67 @@
-import axios from 'axios'
-import createAuthRefreshInterceptor from 'axios-auth-refresh';
+import { handlePostRequest } from "./fetch_api";
 
-const baseUrl = 'http://127.0.0.1:8000'
-export const api = axios.create({
-    'baseURL':baseUrl
-})
+export async function obtainNewTokens(email, password, setTokens){
+    try{
+        const response = await handlePostRequest(
+            {
+                email: email,
+                password: password,
+            },'api/token/obtain/'
+        );
+        if (!response?.ok){
+            console.error('Error occured when trying to obtain new pair of tokens');
+            return;
+        }
+        setTokens({
+            accessToken: response.tokens.access,
+            refreshToken: response.tokens.refresh,
+        });
+    }
+    catch(error){
+        console.error(error);
+    }
+  }    
 
-api.interceptors.request.use((config) => {
-  const token = localStorage.getItem('accessToken');
-  if (token) {
-    config.headers.Authorization = `Bearer ${token}`;
-  }
-  return config;
-});
+export async function refreshAccessToken(refreshToken, setTokens){
+    try{
+        const response = await handlePostRequest(
+            {refresh: refreshToken}, 'api/token/refresh/'
+        );
+        if (!response?.ok){
+            console.error('Invalid refresh token');
+            return;
+        }
+        setTokens({
+            accessToken: response.tokens.access,
+        })
+    }
+    catch(error){
+        console.error(error)
+    }
+  }   
 
-async function refreshAccessToken(failedRequest){
-    const data = axios.post(`${baseUrl}/api/token/refresh`, {
-        refreshToken: localStorage.getItem('refreshToken')
-    })
+export async function checkAccessToken(accessToken, setIsAuthenticated, setIsCheckingAuth){
+    try{
+        if (!accessToken){
+            setIsAuthenticated(false);
+            return;
+        }
+        const response = await handlePostRequest({
+          token: accessToken, 
+        }, 'api/token/verify/');
 
-    localStorage.setItem('accessToken', data.tokens.access)
-    failedRequest.response.config.headers.Authorization = `Bearer ${data.tokens.access}`
+        if (!response?.ok){
+            console.error('Access token has expired');
+            setIsAuthenticated(false);
+            return;
+        }
+        setIsAuthenticated(true);
+    }
+    catch(error){
+        console.error(error);
+        setIsAuthenticated(false);
+    }
+    finally{
+        setIsCheckingAuth(false);
+    }
 }
-
-createAuthRefreshInterceptor(api, refreshAccessToken)

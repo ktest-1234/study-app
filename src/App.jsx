@@ -5,7 +5,7 @@ import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { Outlet } from "react-router-dom";
 import { useContext, useEffect, useState } from "react";
 import { AuthContext } from "./AuthContext";
-import { handleGetRequest, handlePostRequest, handleAuthenticatedPostRequest } from './fetch_api'
+import { checkAccessToken } from "./authTokenApi";
 
 function ProtectedRoute({ isAuthenticated, isCheckingAuth }) {
     if (isCheckingAuth){
@@ -34,48 +34,7 @@ function App() {
     const { isCheckingAuth, setIsCheckingAuth } = useState(true)
 
     useEffect(() => {
-
-        async function refreshAccessToken(){
-            try{
-                const response = await handlePostRequest(
-                    {refresh: authState.refreshToken}, 'api/token/refresh/'
-                );
-                if (!response.ok){
-                    console.error('Invalid refresh token');
-                    return;
-                }
-                setTokens({
-                    accessToken: response.tokens.access,
-                })
-            }
-            catch(error){
-                console.error(error)
-            }
-        }   
-        async function checkAccessToken(){
-            try{
-                if (!authState.accessToken){
-                    setIsAuthenticated(false);
-                    return;
-                }
-                const response = await handleAuthenticatedPostRequest(authState.accessToken, 'api/token/verify/')
-                if (!response.ok){
-                    console.error('Access token has expired')
-                    setIsAuthenticated(false)
-                    await refreshAccessToken()
-                    return;
-                }
-                setIsAuthenticated(true)
-            }
-            catch(error){
-                console.error(error)
-                setIsAuthenticated(false)
-            }
-            finally{
-                setIsCheckingAuth(false)
-            }
-        }
-        checkAccessToken();
+        checkAccessToken(authState.accessToken, setIsAuthenticated, setIsCheckingAuth);
     }, []);
 
     return(

@@ -57,7 +57,6 @@ ALLOWED_HOSTS = [
 
 CORS_ALLOW_CREDENIIALS = True
 
-
 MIDDLEWARE = [
     'corsheaders.middleware.CorsMiddleware',
     "django.middleware.security.SecurityMiddleware",
@@ -132,6 +131,8 @@ SIMPLE_JWT = {
     'ROTATE_REFRESH_TOKENS': True,
     'BLACKLIST_AFTER_ROTATION': True,
     'AUTH_HEADER_TYPES': ('Bearer',),
+    'USER_ID_FIELD': 'email', 
+    'USER_ID_CLAIM': 'email',
 }
 
 # Internationalization

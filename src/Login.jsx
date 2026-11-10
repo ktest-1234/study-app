@@ -4,6 +4,7 @@ import { AuthContext } from "./AuthContext";
 import { FaUserCircle, FaLock } from "react-icons/fa";
 import { motion as m } from 'framer-motion';
 import { handleGetRequest, handlePostRequest } from './fetch_api.js';
+import { obtainNewTokens } from "./authTokenApi.js";
 
 function Field({ type, placeholder, icon: Icon, onChange }) {
     return (
@@ -43,28 +44,6 @@ export default function Login() {
         getData()
     }, [])
 
-    async function obtainNewTokens(username, password){
-        try{
-            const response = await handlePostRequest(
-                {
-                    username: username,
-                    password: password,
-                },'api/token/obtain/'
-            );
-            if (!response.ok){
-                console.error('Error occured when trying to obtain new pair of tokens');
-                return;
-            }
-            setTokens({
-                accessToken: response.tokens.access,
-                refreshToken: response.tokens.refresh,
-            })
-        }
-        catch(error){
-            console.error(error)
-        }
-        }
-
     function IncorrectUsernameOrPasswordText(){
         if (loginSuccessful === -1){
             return (<div className="mt-5 text-red-600">Incorrect Username or Password! Please try again.</div>);
@@ -77,7 +56,7 @@ export default function Login() {
             if (value['username'] === loginName && value['password'] === loginPassword){
                 setIsAuthenticated(true);
                 setLoginSuccessful(1);
-                obtainNewTokens(value['username'], value['password'])
+                obtainNewTokens(value['email'], value['password'], setTokens)
             }
             else{
                 setLoginSuccessful(-1);

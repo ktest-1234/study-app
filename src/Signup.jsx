@@ -55,6 +55,8 @@ export default function Signup() {
                         refreshToken: response.tokens.refresh,
                     })
                 }
+
+                setIsAuthenticated(true)
             }
             send()
             
