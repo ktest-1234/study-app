@@ -1,7 +1,9 @@
+const BASE_URL = 'https://special-invention-4jx7jrw6x74pf5g6r-8000.app.github.dev'
+
 export async function handleGetRequest(path){
     try {
             const accessToken = localStorage.getItem('accessToken');
-            const response = await fetch(`http://127.0.0.1:8000/${path}`)
+            const response = await fetch(`${BASE_URL}/${path}`)
             
             if (!response.ok) {
                 // 1. Log the HTTP status code
@@ -30,7 +32,7 @@ export async function handlePostRequest(request, path){
         body: JSON.stringify(request),
     }
     try{
-        const response = await fetch(`http://127.0.0.1:8000/${path}`, postData);
+        const response = await fetch(`${BASE_URL}/${path}`, postData);
         if (!response.ok){
             console.log('Error when doing POST request', response.status, response)
             return null
@@ -51,7 +53,7 @@ export async function handleAuthenticatedPostRequest(token, path){
         body: JSON.stringify({ key: 'value' }),
     }
     try{
-        const response = await fetch(`http://127.0.0.1:8000/${path}`, postData);
+        const response = await fetch(`${BASE_URL}/${path}`, postData);
         if (!response.ok){
             console.log('Error when doing POST request', response.status, response)
             return null

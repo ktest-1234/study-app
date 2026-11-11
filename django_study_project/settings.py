@@ -67,6 +67,7 @@ MIDDLEWARE = [
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
 ]
+
 ROOT_URLCONF = "django_study_project.urls"
 
 TEMPLATES = [
@@ -133,6 +134,7 @@ SIMPLE_JWT = {
     'AUTH_HEADER_TYPES': ('Bearer',),
     'USER_ID_FIELD': 'email', 
     'USER_ID_CLAIM': 'email',
+    'TOKEN_OBTAIN_SERIALIZER': 'auth_app.serializer.CustomTokenObtainPairSerializer'
 }
 
 # Internationalization

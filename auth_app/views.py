@@ -33,6 +33,15 @@ class UserViewSet(ModelViewSet):
         }, status=HTTP_201_CREATED)
 
         return response
+
+    # def retrieve(self, request, *args, **kwargs):
+    #     serializer = self.get_serializer(data=request.data) # gets the serializer class while adding contexts to it
+    #     serializer.is_valid(raise_exception=True) # make sure it is valid
+    #     user = serializer.save()
+    #     response = Response(data={
+    #         "user":serializer.data,
+    #         "password_is_valid": user.check_password()
+    #     })
         
 
 class ProfileViewSet(ModelViewSet):
