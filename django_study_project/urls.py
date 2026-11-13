@@ -18,13 +18,9 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include, re_path
 from django.views.generic import TemplateView
-from rest_framework_simplejwt.views import TokenRefreshView, TokenVerifyView, TokenObtainPairView
-from auth_app.serializer import CustomTokenObtainPairSerializer
-
+from rest_framework_simplejwt.views import TokenRefreshView, TokenVerifyView
+from auth_app.views import CustomTokenObtainPairView
 from django.urls import path, include
-
-class CustomTokenObtainPairView(TokenObtainPairView):
-    serializer_class = CustomTokenObtainPairSerializer
 
 urlpatterns = [
     path('admin/', admin.site.urls),
