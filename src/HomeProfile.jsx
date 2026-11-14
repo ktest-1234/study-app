@@ -1,48 +1,43 @@
-import { FaBars, FaSearch } from 'react-icons/fa'
-import { useState } from 'react'
+import { FaSearch, FaTasks } from 'react-icons/fa'
+import { GiProgression } from 'react-icons/gi'
+import { MdOutlineDashboard, MdSettings, MdLogout } from 'react-icons/md'
+import { LuCalendarDays } from 'react-icons/lu'
+import { AuthContext } from './AuthContext'
+import { useContext } from 'react'
 
-function MoreInfoDropdown() {
+function StretchOutIcon({ icon: Icon }){
     return (
-        <>
-            <div className="flex flex-row justify-center items-cemter h-[25vm] py-5 [&>*]:ml-5 bg-blue-200 rounded-md">
-                <p>Profile</p>
-                <p>Settings</p>
-                <p>Logout</p>
-            </div>
-        </>
-    );
+        <div className='...'>
+            <Icon />
+        </div>
+    )
 }
-function NavigationPanel({children}) {
-    const [isHamburgerClicked, setIsHamburgerClicked] = useState(false)
-    const [isHamburgerHovered, setIsHamburgerHovered] = useState(false)
-    function handleClick(e){
-        e.preventDefault()
-        if (isHamburgerClicked){
-            console.log('yay')
-        }
-        setIsHamburgerClicked(!isHamburgerClicked)
-    }
+
+export default function HomeProfile(){
+    const { authState, setIsAuthenticated, setTokens } = useContext(AuthContext)
     return (
-        <>
-            <nav className="flex flex-row justify-center items-cemter h-[25vm] py-5 [&>*]:ml-5 bg-blue-100 rounded-md">
-                <h1 className="font-bold">Study App</h1>
-                {children}
-                <button type="button" onMouseEnter={() => setIsHamburgerHovered(true)} onMouseLeave={() => setIsHamburgerHovered(false)} onClick={handleClick}>
-                    {isHamburgerHovered ? <FaSearch /> :  <FaBars />}
-                </button>
-            </nav>
-            {isHamburgerHovered  && (
-                <MoreInfoDropdown />
-            )}
-        </>
-    );
-}
-export default function HomeProfile() {
-    return(
-        <NavigationPanel>
-            <h2>Hello</h2>
-            <h2>Hello</h2>
-            <h2>Hello</h2>
-        </NavigationPanel>
+        <div className="grid grid-cols-[250px_1fr] min-h-screen bg-amber-50">
+            <aside className=" grid grid-rows-10 bg-gradient-to-tr from-blue-700 to-blue-900 text-white rounded-r-xl w-[50px] place-items-center gap-[5px] ">
+                <div className='hover:brightness-50 m-1'><MdOutlineDashboard /></div>
+                <div className='hover:brightness-50 m-1'><FaTasks /></div>
+                <div className='hover:brightness-50 m-1'><FaSearch /></div>
+                <div className='hover:brightness-50 m-1'><GiProgression /></div>
+                <div className='hover:brightness-50 m-1'><LuCalendarDays /></div>
+                <div className='m-1'></div>
+                <div className='m-1'></div>
+                <div className='m-1'></div>
+                <div className='hover:brightness-50 m-1'><MdSettings /></div>
+                <div className='hover:brightness-50 m-1'><MdLogout onClick={() => {
+                    setIsAuthenticated(false);
+                    setTokens({
+                        accessToken: null,
+                    })
+                }}/></div>
+            </aside>
+
+            <main className="grid grid-cols-[200px_100px]">
+                
+            </main>
+        </div>
     )
 }

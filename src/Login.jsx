@@ -85,7 +85,7 @@ export default function Login() {
                         <div>
                             <p className="text-gray-600">Welcome to our study app! Login and have fun!</p>
                         </div>
-                        <IncorrectUsernameOrPasswordText></IncorrectUsernameOrPasswordText>
+                        <IncorrectUsernameOrPasswordText />
                         <Field
                             type="text"
                             placeholder="Your Email"

@@ -6,15 +6,17 @@ import { Outlet } from "react-router-dom";
 import { useContext, useEffect, useState } from "react";
 import { AuthContext } from "./AuthContext";
 import { checkAccessToken } from "./authTokenApi";
-import { LoadingPage } from './LoadingPage'
+import LoadingPage from './LoadingPage'
 
 const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
-
-
 function ProtectedRoute({ isAuthenticated, isCheckingAuth }) {
     if (isCheckingAuth){
-        return <LoadingPage />
+        return (
+            <LoadingPage>
+                <h4>Please wait, we are trying to connect you to the server.... Thank you.</h4>
+            </LoadingPage>
+        )
     }
     if (!isAuthenticated) {
         return <Navigate to="/login" replace />;
@@ -25,7 +27,11 @@ function ProtectedRoute({ isAuthenticated, isCheckingAuth }) {
 
 function PublicRoute({ isAuthenticated, isCheckingAuth }) {
     if (isCheckingAuth){
-        return <LoadingPage />
+        return (
+            <LoadingPage>
+                <h4>Please wait, we are trying to connect you to the server.... Thank you.</h4>
+            </LoadingPage>
+        )
     }
 
     if (isAuthenticated) {

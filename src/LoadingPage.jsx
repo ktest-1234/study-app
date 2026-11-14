@@ -1,6 +1,6 @@
 import { MutatingDots } from "react-loader-spinner";
 
-export default function LoadingPage(){
+export default function LoadingPage({ children }){
     return <div className="grid min-h-screen place-items-center">
         <MutatingDots
             visible={true}
@@ -12,6 +12,6 @@ export default function LoadingPage(){
             ariaLabel="mutating-dots-loading"
             wrapperStyle={{}}
             wrapperClass=""/>
-        <h4>Please wait, we are trying to connect you to the server.... Thank you.</h4>
+        {children}
     </div>
 }
