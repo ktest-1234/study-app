@@ -20,6 +20,7 @@ from django.urls import path, include, re_path
 from django.views.generic import TemplateView
 from rest_framework_simplejwt.views import TokenRefreshView, TokenVerifyView
 from auth_app.views import CustomTokenObtainPairView
+from django.views.decorators.csrf import ensure_csrf_cookie
 from django.urls import path, include
 
 urlpatterns = [
@@ -31,5 +32,5 @@ urlpatterns = [
 
     path('api/auth/', include('auth_app.urls')),
     
-    re_path(r'^.*$', TemplateView.as_view(template_name='index.html'), name='index') # This must be last
+    re_path(r'^.*$', ensure_csrf_cookie(TemplateView.as_view(template_name='index.html')), name='index') # This must be last
 ]

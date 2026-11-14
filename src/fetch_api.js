@@ -1,4 +1,6 @@
-const BASE_URL = 'https://special-invention-4jx7jrw6x74pf5g6r-8000.app.github.dev'
+import { getCookie } from "./cookies";
+
+const BASE_URL = 'http://127.0.0.1:8000'
 
 export async function handleGetRequest(path){
     try {
@@ -28,20 +30,21 @@ export async function handleGetRequest(path){
 export async function handlePostRequest(request, path){
     const postData = {
         method: 'POST',
-        headers: {'Content-Type':'application/json'},
+        credentials: 'include',
+        headers: {'Content-Type':'application/json', 'X-CSRFToken':getCookie('csrftoken')},
         body: JSON.stringify(request),
     }
     try{
         const response = await fetch(`${BASE_URL}/${path}`, postData);
         if (!response.ok){
-            console.log('Error when doing POST request', response.status, response)
+            console.error('Error when doing POST request', response.status, response)
             return null
         }
         const data = await response.json()
         return data
     }
     catch(error){
-        console.log(`An error occured: ${error}`);
+        console.error(`An error occured: ${error}`);
         return null
     }
 }

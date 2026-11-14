@@ -3,14 +3,16 @@ from rest_framework.status import HTTP_201_CREATED, HTTP_400_BAD_REQUEST, HTTP_4
 from rest_framework_simplejwt.tokens import RefreshToken
 from rest_framework_simplejwt.views import TokenObtainPairView
 from rest_framework.response import Response
+from rest_framework.decorators import action
 from .models import Profile, User
-from .serializer import ProfileSerializer, UserSerializer, CustomTokenObtainPairSerializer
+from .serializer import ProfileSerializer, UserSerializer, CustomTokenObtainPairSerializer, CheckPasswordSerializer
 
 class UserViewSet(ModelViewSet):
     queryset = User.objects.all()
     serializer_class = UserSerializer
+    lookup_field = 'email'
     
-    def create(self, request, *args, **kwargs): # HTTP POST method
+    def create(self, request, *args, **kwargs): # HTTP POST method / creating users
         serializer = self.get_serializer(data=request.data) # gets the serializer class
         serializer.is_valid(raise_exception=True) # make sure if the args given by the request are valid
         print(serializer) 
@@ -31,28 +33,16 @@ class UserViewSet(ModelViewSet):
 
         return response
 
-    def retrieve(self, request, *args, **kwargs): # HTTP GET method
-        user = self.get_object()
+    @action(methods=['post'], detail=False)
+    def check_password(self, request, pk=None): # HTTP POST method / checking user passwords
+        serializer = CheckPasswordSerializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+
+        email = request.data.get('email')
         password = request.data.get('password')
-        if not password:
-            return Response(data={
-                "user":request.data,
-                "is_password_correct":False,
-                "message":"Password not valid"
-            }, status=HTTP_400_BAD_REQUEST)
+        user = User.objects.filter(email=email).first() # runs a search query - filtering by email and get the first user
         
-        if not user.check_password(password):
-            return Response(data={
-                "user":request.data,
-                "is_password_correct":False,
-                "message":"User password is incorrect"
-            }, status=HTTP_401_UNAUTHORIZED)
-        
-        return Response(data={
-            "user":request.data,
-            "is_password_correct":True,
-            "message":"User password is correct"
-        }, status=HTTP_201_CREATED)
+        return serializer.check_password(user, password)
 
 class ProfileViewSet(ModelViewSet):
     queryset = Profile.objects.all()

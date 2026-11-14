@@ -6,10 +6,28 @@ import { Outlet } from "react-router-dom";
 import { useContext, useEffect, useState } from "react";
 import { AuthContext } from "./AuthContext";
 import { checkAccessToken } from "./authTokenApi";
+import { MutatingDots } from "react-loader-spinner";
+
+const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
+
+function LoadingPage(){
+    return <div className="items-center">
+        <MutatingDots
+            visible={true}
+            height="100"
+            width="100"
+            color="#226be0"
+            secondaryColor="#226be0"
+            radius="12.5"
+            ariaLabel="mutating-dots-loading"
+            wrapperStyle={{}}
+            wrapperClass=""/>
+    </div>
+}
 
 function ProtectedRoute({ isAuthenticated, isCheckingAuth }) {
     if (isCheckingAuth){
-        return <Outlet />;
+        return <LoadingPage />
     }
     if (!isAuthenticated) {
         return <Navigate to="/login" replace />;
@@ -20,7 +38,7 @@ function ProtectedRoute({ isAuthenticated, isCheckingAuth }) {
 
 function PublicRoute({ isAuthenticated, isCheckingAuth }) {
     if (isCheckingAuth){
-        return <Outlet />;
+        return <LoadingPage />
     }
 
     if (isAuthenticated) {
@@ -31,10 +49,14 @@ function PublicRoute({ isAuthenticated, isCheckingAuth }) {
 
 function App() {
     const { authState, setIsAuthenticated, setTokens } = useContext(AuthContext);
-    const { isCheckingAuth, setIsCheckingAuth } = useState(true)
+    const [isCheckingAuth, setIsCheckingAuth] = useState(true)
 
     useEffect(() => {
-        checkAccessToken(authState.accessToken, setIsAuthenticated, setIsCheckingAuth);
+        const fetchData = async () => {
+            await delay(2000);
+            checkAccessToken(authState.accessToken, setIsAuthenticated, setIsCheckingAuth);
+        }
+        fetchData();
     }, []);
 
     return(

@@ -20,6 +20,7 @@ export function AuthProvider({ children }) {
         }))
         localStorage.setItem('refreshToken', refreshToken);
         localStorage.setItem('accessToken', accessToken);
+        console.log('set tokens')
     }
     return (
         <AuthContext.Provider value={{ authState, setIsAuthenticated, setTokens }}>

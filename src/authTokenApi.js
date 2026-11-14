@@ -1,3 +1,4 @@
+import { FaListCheck } from "react-icons/fa6";
 import { handlePostRequest } from "./fetch_api";
 
 export async function obtainNewTokens(email, password, setTokens){
@@ -8,14 +9,18 @@ export async function obtainNewTokens(email, password, setTokens){
                 password: password,
             },'api/token/obtain/'
         );
-        if (!response?.ok){
-            console.error('Error occured when trying to obtain new pair of tokens');
-            return;
+        // if (!response?.ok){
+        //     console.error('Error occured when trying to obtain new pair of tokens');
+        //     return;
+        // }
+        console.log(response);
+        if (!!response){
+            setTokens({
+                accessToken: response.access,
+                refreshToken: response.refresh,
+            });
         }
-        setTokens({
-            accessToken: response.tokens.access,
-            refreshToken: response.tokens.refresh,
-        });
+        return response;
     }
     catch(error){
         console.error(error);
@@ -27,35 +32,49 @@ export async function refreshAccessToken(refreshToken, setTokens){
         const response = await handlePostRequest(
             {refresh: refreshToken}, 'api/token/refresh/'
         );
-        if (!response?.ok){
-            console.error('Invalid refresh token');
-            return;
+        console.log(response);
+        if (!!response){
+            setTokens({
+                accessToken: response.access,
+            });
         }
-        setTokens({
-            accessToken: response.tokens.access,
-        })
+        return response;
     }
     catch(error){
-        console.error(error)
+        console.error(error);
     }
-  }   
+}
+
+export async function obtainOrRefreshTokens(refreshToken, email, password, setTokens){
+
+    const response = await refreshAccessToken(refreshToken, setTokens);
+    if (!!response){
+        return null;
+    } else {
+        await obtainNewTokens(email, password, setTokens);
+    }
+}
 
 export async function checkAccessToken(accessToken, setIsAuthenticated, setIsCheckingAuth){
     try{
+        setIsCheckingAuth(true)
         if (!accessToken){
             setIsAuthenticated(false);
+            console.log('test');
             return;
         }
         const response = await handlePostRequest({
           token: accessToken, 
         }, 'api/token/verify/');
 
-        if (!response?.ok){
-            console.error('Access token has expired');
+        console.log(response);
+
+        if (!!response){
+            setIsAuthenticated(true);
+        } else {
             setIsAuthenticated(false);
-            return;
         }
-        setIsAuthenticated(true);
+        return response;
     }
     catch(error){
         console.error(error);

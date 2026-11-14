@@ -4,7 +4,7 @@ import { AuthContext } from "./AuthContext";
 import { FaUserCircle, FaLock } from "react-icons/fa";
 import { motion as m } from 'framer-motion';
 import { handleGetRequest, handlePostRequest } from './fetch_api.js';
-import { obtainNewTokens } from "./authTokenApi.js";
+import { obtainOrRefreshTokens } from "./authTokenApi.js";
 
 function Field({ type, placeholder, icon: Icon, onChange }) {
     return (
@@ -24,7 +24,7 @@ export default function Login() {
     const { authState, setIsAuthenticated, setTokens } = useContext(AuthContext);
 
     /*Login Details*/
-    const [loginName, setLoginName] = useState(null);
+    const [loginEmail, setLoginEmail] = useState(null);
     const [loginPassword, setLoginPassword] = useState(null);
     const [loginSuccessful, setLoginSuccessful] = useState(0)
     const users = useRef(null);
@@ -50,18 +50,34 @@ export default function Login() {
         }
     }
 
-    function handleLoginSubmit(e) {
+    async function handleLoginSubmit(e) {
         e.preventDefault();
-        Object.values(users.current).map((value) => {
-            if (value['username'] === loginName && value['password'] === loginPassword){
+        // Object.values(users.current).map((value) => {
+        //     if (value['username'] === loginName && value['password'] === loginPassword){
+        //         setIsAuthenticated(true);
+        //         setLoginSuccessful(1);
+        //         obtainNewTokens(value['email'], value['password'], setTokens)
+        //     }
+        //     else{
+        //         setLoginSuccessful(-1);
+        //     }
+        // });
+
+        try{
+            const response = await handlePostRequest({
+                email:loginEmail,
+                password:loginPassword,
+            }, 'api/auth/users/check_password/');
+            if (response.is_password_correct){
                 setIsAuthenticated(true);
                 setLoginSuccessful(1);
-                obtainNewTokens(value['email'], value['password'], setTokens)
+                obtainOrRefreshTokens(authState.refreshToken, loginEmail, loginPassword, setTokens);
             }
-            else{
-                setLoginSuccessful(-1);
-            }
-        });
+        }
+        catch(error){
+            console.log(error);
+            setLoginSuccessful(-1)
+        }
     }
     return(
             <div className="grid min-h-screen place-items-center bg-gradient-to-tr from-blue-500 to-blue-200">
@@ -83,9 +99,9 @@ export default function Login() {
                         <IncorrectUsernameOrPasswordText></IncorrectUsernameOrPasswordText>
                         <Field
                             type="text"
-                            placeholder="Username or Email"
+                            placeholder="Your Email"
                             icon={FaUserCircle}
-                            onChange={(e) => setLoginName(e.target.value)}
+                            onChange={(e) => setLoginEmail(e.target.value)}
                         />
                         <Field
                             type="password"
