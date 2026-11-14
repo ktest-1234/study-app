@@ -6,24 +6,11 @@ import { Outlet } from "react-router-dom";
 import { useContext, useEffect, useState } from "react";
 import { AuthContext } from "./AuthContext";
 import { checkAccessToken } from "./authTokenApi";
-import { MutatingDots } from "react-loader-spinner";
+import { LoadingPage } from './LoadingPage'
 
 const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
-function LoadingPage(){
-    return <div className="items-center">
-        <MutatingDots
-            visible={true}
-            height="100"
-            width="100"
-            color="#226be0"
-            secondaryColor="#226be0"
-            radius="12.5"
-            ariaLabel="mutating-dots-loading"
-            wrapperStyle={{}}
-            wrapperClass=""/>
-    </div>
-}
+
 
 function ProtectedRoute({ isAuthenticated, isCheckingAuth }) {
     if (isCheckingAuth){

@@ -35,7 +35,6 @@ export default function Login() {
             try{
                 users.current = await handleGetRequest('api/auth/users/');
                 profiles.current = await handleGetRequest('api/auth/profiles/');
-                console.log(users.current, profiles.current);
             }
             catch(error){
                 console.log(error)
@@ -52,16 +51,6 @@ export default function Login() {
 
     async function handleLoginSubmit(e) {
         e.preventDefault();
-        // Object.values(users.current).map((value) => {
-        //     if (value['username'] === loginName && value['password'] === loginPassword){
-        //         setIsAuthenticated(true);
-        //         setLoginSuccessful(1);
-        //         obtainNewTokens(value['email'], value['password'], setTokens)
-        //     }
-        //     else{
-        //         setLoginSuccessful(-1);
-        //     }
-        // });
 
         try{
             const response = await handlePostRequest({
