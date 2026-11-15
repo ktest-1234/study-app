@@ -4,6 +4,7 @@ import { AuthContext } from "./AuthContext";
 import { FaUser, FaLock, FaCalendar, FaEnvelopeOpen } from "react-icons/fa";
 import { motion as m } from 'framer-motion';
 import { handlePostRequest } from './fetch_api.js'
+import { TbPasswordMobilePhone } from "react-icons/tb";
 
 function Field({ type, placeholder, icon: Icon, onChange }) {
     return (
@@ -20,7 +21,7 @@ function Field({ type, placeholder, icon: Icon, onChange }) {
 }
 
 export default function Signup() {
-    const { authState, setIsAuthenticated, setTokens } = useContext(AuthContext);
+    const { authState, setIsAuthenticated, setTokens, setCurrentUser } = useContext(AuthContext);
 
     /*Signup Details*/
     const [signupName, setSignupName] = useState(null)
@@ -47,8 +48,6 @@ export default function Signup() {
                 is_active: true,
                 }, 'api/auth/users/')
 
-                console.log(response)
-
                 if (response && response.tokens) {
                     setTokens({
                         accessToken: response.tokens.access,
@@ -56,7 +55,11 @@ export default function Signup() {
                     })
                 }
 
-                setIsAuthenticated(true)
+                setIsAuthenticated(true);
+                setCurrentUser({
+                    username: signupEmail,
+                    password: signupPassword
+                })
             }
             send()
             

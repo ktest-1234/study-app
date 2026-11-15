@@ -5,25 +5,36 @@ export function AuthProvider({ children }) {
         isAuthenticated: false,
         accessToken: localStorage.getItem('accessToken'),
         refreshToken: localStorage.getItem('refreshToken'),
+        currentUser: localStorage.getItem('currentUser')
     });
     const setIsAuthenticated = (isAuthenticated) => {
         setAuthState(json => ({
             ...json,
             isAuthenticated: isAuthenticated,
-        }))
+        }));
     }
     const setTokens = ({accessToken, refreshToken}) => {
         setAuthState(json => ({
             ...json,
             ...(accessToken !== undefined && { accessToken }),
             ...(refreshToken !== undefined && { refreshToken }),
-        }))
+        }));
         localStorage.setItem('refreshToken', refreshToken);
         localStorage.setItem('accessToken', accessToken);
         console.log('set tokens')
     }
+    const setCurrentUser = ({username, password}) => {
+        setAuthState(json => ({
+            ...json,
+            currentUser: {
+                username: username,
+                password: password
+            }
+        }));
+        localStorage.setItem('currentUser', {username: username, password: password})
+    }
     return (
-        <AuthContext.Provider value={{ authState, setIsAuthenticated, setTokens }}>
+        <AuthContext.Provider value={{ authState, setIsAuthenticated, setTokens, setCurrentUser }}>
             {children}
         </AuthContext.Provider>
     );

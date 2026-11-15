@@ -21,7 +21,7 @@ function Field({ type, placeholder, icon: Icon, onChange }) {
 }
 
 export default function Login() {
-    const { authState, setIsAuthenticated, setTokens } = useContext(AuthContext);
+    const { authState, setIsAuthenticated, setTokens, setCurrentUser } = useContext(AuthContext);
 
     /*Login Details*/
     const [loginEmail, setLoginEmail] = useState(null);
@@ -60,6 +60,10 @@ export default function Login() {
             if (response.is_password_correct){
                 setIsAuthenticated(true);
                 setLoginSuccessful(1);
+                setCurrentUser({
+                    username: loginEmail,
+                    password: loginPassword
+                });
                 obtainOrRefreshTokens(authState.refreshToken, loginEmail, loginPassword, setTokens);
             }
         }

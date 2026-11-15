@@ -41,7 +41,7 @@ function PublicRoute({ isAuthenticated, isCheckingAuth }) {
 }
 
 function App() {
-    const { authState, setIsAuthenticated, setTokens } = useContext(AuthContext);
+    const { authState, setIsAuthenticated, setTokens, setCurrentUser } = useContext(AuthContext);
     const [isCheckingAuth, setIsCheckingAuth] = useState(true)
 
     useEffect(() => {
