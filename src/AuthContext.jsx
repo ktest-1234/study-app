@@ -5,7 +5,7 @@ export function AuthProvider({ children }) {
         isAuthenticated: false,
         accessToken: localStorage.getItem('accessToken'),
         refreshToken: localStorage.getItem('refreshToken'),
-        currentUser: localStorage.getItem('currentUser')
+        currentUser: localStorage.getItem('currentUser'),
     });
     const setIsAuthenticated = (isAuthenticated) => {
         setAuthState(json => ({
@@ -31,7 +31,7 @@ export function AuthProvider({ children }) {
                 password: password
             }
         }));
-        localStorage.setItem('currentUser', {username: username, password: password})
+        localStorage.setItem('currentUser', JSON.stringify({username: username, password: password}))
     }
     return (
         <AuthContext.Provider value={{ authState, setIsAuthenticated, setTokens, setCurrentUser }}>

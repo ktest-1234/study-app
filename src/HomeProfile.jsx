@@ -3,6 +3,8 @@ import { GiProgression } from 'react-icons/gi'
 import { MdOutlineDashboard, MdSettings, MdLogout } from 'react-icons/md'
 import { PiStudentFill } from 'react-icons/pi'
 import { LuCalendarDays } from 'react-icons/lu'
+import { useContext } from 'react'
+import { AuthContext } from './AuthContext'
 
 function NavigationButton({ icon: Icon, name }){
     return (
@@ -14,6 +16,7 @@ function NavigationButton({ icon: Icon, name }){
 }
 
 function LogoutButton(){
+    const { authState, setIsAuthenticated, setTokens, setCurrentUser } = useContext(AuthContext)
     return(
         <button className='bg-blue-700 hover:bg-blue-950 inline-flex items-baseline h-[50px] hover:cursor-pointer transition-colors duration-100 gap-1 ' onClick={() => {
             setIsAuthenticated(false);
@@ -36,10 +39,10 @@ function ProfileSection({ username, picture }){
     );
 }
 
-function NavigationSection(){
+function HeroSection(){
     return (
-        <aside className=" grid grid-rows-10 bg-blue-700 text-white drop-shadow-lg font-light ">
-            <ProfileSection username={localStorage.getItem('currentUser')?.username} picture={null} />
+        <aside className=" grid grid-rows-10 bg-blue-700 text-white drop-shadow-lg font-light rounded-md font-mono scroll-auto">
+            <ProfileSection username={JSON.parse(localStorage.getItem('currentUser'))?.username} picture={null} />
             
             
             <div className='...'></div>
@@ -63,11 +66,15 @@ function NavigationSection(){
 export default function HomeProfile(){
     return (
         <div className="grid grid-cols-[250px_1fr] min-h-screen bg-white">
-            <NavigationSection />
+            <HeroSection />
 
             <main className="grid grid-flow-row-dense grid-cols-3 grid-row-3">
-                <div className="col-span-full row-span-2 drop-shadow-xl rounded-md bg-slate-100 m-3 place-items-center">
-                    <h1 className='font-thin text-black'>Welcome Back, User!</h1>
+                <div className="col-span-full row-span-2 drop-shadow-xl rounded-md bg-slate-100 m-3 place-items-center justify-center flex">
+                    <p className='font-bold font-mono text-black'>
+                        Welcome Back, User!
+                        <br />
+                        Get started with your journey right now!
+                    </p>
                 </div>
                 <div className=""></div>
                 <div className=""></div>
