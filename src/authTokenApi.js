@@ -1,7 +1,7 @@
 import { FaListCheck } from "react-icons/fa6";
 import { handlePostRequest } from "./fetch_api";
 
-export async function obtainNewTokens(email, password, setTokens){
+export async function obtainNewTokens(email, password){
     try{
         const response = await handlePostRequest(
             {
@@ -14,12 +14,6 @@ export async function obtainNewTokens(email, password, setTokens){
         //     return;
         // }
         console.log(response);
-        if (!!response){
-            setTokens({
-                accessToken: response.access,
-                refreshToken: response.refresh,
-            });
-        }
         return response;
     }
     catch(error){
@@ -27,17 +21,12 @@ export async function obtainNewTokens(email, password, setTokens){
     }
   }    
 
-export async function refreshAccessToken(refreshToken, setTokens){
+export async function refreshAccessToken(){
     try{
         const response = await handlePostRequest(
-            {refresh: refreshToken}, 'api/token/refresh/'
+            {}, 'api/token/refresh/'
         );
         console.log(response);
-        if (!!response){
-            setTokens({
-                accessToken: response.access,
-            });
-        }
         return response;
     }
     catch(error){
@@ -45,27 +34,20 @@ export async function refreshAccessToken(refreshToken, setTokens){
     }
 }
 
-export async function obtainOrRefreshTokens(refreshToken, email, password, setTokens){
+export async function obtainOrRefreshTokens(email, password){
 
-    const response = await refreshAccessToken(refreshToken, setTokens);
+    const response = await refreshAccessToken();
     if (!!response){
         return null;
     } else {
-        await obtainNewTokens(email, password, setTokens);
+        await obtainNewTokens(email, password);
     }
 }
 
-export async function checkAccessToken(accessToken, setIsAuthenticated, setIsCheckingAuth){
+export async function checkAccessToken(setIsAuthenticated, setIsCheckingAuth){
     try{
         setIsCheckingAuth(true)
-        if (!accessToken){
-            setIsAuthenticated(false);
-            console.log('test');
-            return;
-        }
-        const response = await handlePostRequest({
-          token: accessToken, 
-        }, 'api/token/verify/');
+        const response = await handlePostRequest({}, 'api/token/verify/');
 
         console.log(response);
 

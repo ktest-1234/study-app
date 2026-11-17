@@ -21,7 +21,7 @@ function Field({ type, placeholder, icon: Icon, onChange }) {
 }
 
 export default function Login() {
-    const { authState, setIsAuthenticated, setTokens, setCurrentUser } = useContext(AuthContext);
+    const { authState, setIsAuthenticated, setCurrentUser } = useContext(AuthContext);
 
     /*Login Details*/
     const [loginEmail, setLoginEmail] = useState(null);
@@ -64,7 +64,7 @@ export default function Login() {
                     username: loginEmail,
                     password: loginPassword
                 });
-                obtainOrRefreshTokens(authState.refreshToken, loginEmail, loginPassword, setTokens);
+                obtainOrRefreshTokens(loginEmail, loginPassword);
             }
         }
         catch(error){

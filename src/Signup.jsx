@@ -21,7 +21,7 @@ function Field({ type, placeholder, icon: Icon, onChange }) {
 }
 
 export default function Signup() {
-    const { authState, setIsAuthenticated, setTokens, setCurrentUser } = useContext(AuthContext);
+    const { authState, setIsAuthenticated, setCurrentUser } = useContext(AuthContext);
 
     /*Signup Details*/
     const [signupName, setSignupName] = useState(null)
@@ -47,13 +47,6 @@ export default function Signup() {
                 is_superuser: false,
                 is_active: true,
                 }, 'api/auth/users/')
-
-                if (response && response.tokens) {
-                    setTokens({
-                        accessToken: response.tokens.access,
-                        refreshToken: response.tokens.refresh,
-                    })
-                }
 
                 setIsAuthenticated(true);
                 setCurrentUser({

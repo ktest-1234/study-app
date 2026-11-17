@@ -49,6 +49,28 @@ export async function handlePostRequest(request, path){
     }
 }
 
+export async function handleDeleteRequest(request, path){
+    const postData = {
+        method: 'DELETE',
+        credentials: 'include',
+        headers: {'Content-Type':'application/json', 'X-CSRFToken':getCookie('csrftoken')},
+        body: JSON.stringify(request),
+    }
+    try{
+        const response = await fetch(`${BASE_URL}/${path}`, postData);
+        if (!response.ok){
+            console.error('Error when doing POST request', response.status, response)
+            return null
+        }
+        const data = await response.json()
+        return data
+    }
+    catch(error){
+        console.error(`An error occured: ${error}`);
+        return null
+    }
+}
+
 export async function handleAuthenticatedPostRequest(token, path){
     const postData = {
         method: 'POST',

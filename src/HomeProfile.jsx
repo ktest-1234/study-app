@@ -5,6 +5,9 @@ import { PiStudentFill } from 'react-icons/pi'
 import { LuCalendarDays } from 'react-icons/lu'
 import { useContext } from 'react'
 import { AuthContext } from './AuthContext'
+import { handleDeleteRequest } from './fetch_api'
+
+
 
 function NavigationButton({ icon: Icon, name }){
     return (
@@ -16,13 +19,15 @@ function NavigationButton({ icon: Icon, name }){
 }
 
 function LogoutButton(){
-    const { authState, setIsAuthenticated, setTokens, setCurrentUser } = useContext(AuthContext)
+    const { authState, setIsAuthenticated, setTokens, setCurrentUser } = useContext(AuthContext);
+    async function Logout(){
+        setIsAuthenticated(false);
+        const response = await handleDeleteRequest({}, 'api/auth/users/logout/');
+    }
     return(
         <button className='bg-blue-700 hover:bg-blue-950 inline-flex items-baseline h-[50px] hover:cursor-pointer transition-colors duration-100 gap-1 ' onClick={() => {
-            setIsAuthenticated(false);
-            setTokens({
-                accessToken: null,
-            })}}>
+            Logout();
+        }}>
             <MdLogout className='w-3 h-3 ml-2' />
             Logout
         </button>

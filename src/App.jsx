@@ -41,13 +41,13 @@ function PublicRoute({ isAuthenticated, isCheckingAuth }) {
 }
 
 function App() {
-    const { authState, setIsAuthenticated, setTokens, setCurrentUser } = useContext(AuthContext);
+    const { authState, setIsAuthenticated, setCurrentUser } = useContext(AuthContext);
     const [isCheckingAuth, setIsCheckingAuth] = useState(true)
 
     useEffect(() => {
         const fetchData = async () => {
             await delay(2000);
-            checkAccessToken(authState.accessToken, setIsAuthenticated, setIsCheckingAuth);
+            checkAccessToken(setIsAuthenticated, setIsCheckingAuth);
         }
         fetchData();
     }, []);
