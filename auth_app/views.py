@@ -48,6 +48,9 @@ class UserViewSet(ModelViewSet):
     def logout(self, request, pk=None): # HTTP DELETE method / logging out the current user
         response = Response({"message":"Logged out successfully"}, status=HTTP_200_OK)
 
+        refresh = RefreshToken(request.COOKIES.get("refresh_token"))
+        refresh.blacklist() # This blacklists the refresh token so that it can't be used to refresh the access token again
+
         response.delete_cookie(
             "access_token",
             path='/',

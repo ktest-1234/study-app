@@ -3,9 +3,10 @@ import { GiProgression } from 'react-icons/gi'
 import { MdOutlineDashboard, MdSettings, MdLogout } from 'react-icons/md'
 import { PiStudentFill } from 'react-icons/pi'
 import { LuCalendarDays } from 'react-icons/lu'
-import { useContext } from 'react'
+import { useContext, useState } from 'react'
 import { AuthContext } from './AuthContext'
 import { handleDeleteRequest } from './fetch_api'
+import { RxHamburgerMenu } from 'react-icons/rx'
 
 
 
@@ -45,8 +46,13 @@ function ProfileSection({ username, picture }){
 }
 
 function HeroSection(){
+    const [isHamburgerClicked, setIsHambergerClicked] = useState(false)
     return (
-        <aside className=" grid grid-rows-10 bg-blue-700 text-white drop-shadow-lg font-light rounded-md font-mono scroll-auto">
+        <aside className=" grid grid-rows-11 bg-blue-700 text-white drop-shadow-lg font-light rounded-md font-mono">
+            <RxHamburgerMenu onClick={() => {
+                setIsHambergerClicked(true);
+            }} />
+
             <ProfileSection username={JSON.parse(localStorage.getItem('currentUser'))?.username} picture={null} />
             
             
@@ -62,8 +68,6 @@ function HeroSection(){
 
             <NavigationButton icon={MdSettings} name='Settings' />
             <LogoutButton />
-            
-            
         </aside>
     );
 }
