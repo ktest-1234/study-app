@@ -7,6 +7,7 @@ import { useContext, useState } from 'react'
 import { AuthContext } from './AuthContext'
 import { handleDeleteRequest } from './fetch_api'
 import { RxHamburgerMenu } from 'react-icons/rx'
+import { motion as m } from 'framer-motion'
 
 
 
@@ -40,26 +41,26 @@ function ProfileSection({ username, picture }){
         <div className='rounded-full w-6 h-6 m-3'>
             {picture ? picture : <PiStudentFill className='w-5 h-5' />}
             <br />
-            {username ? username : "Profile"}
+            {username}
         </div>
     );
 }
 
 function HeroSection(){
-    const [isHamburgerClicked, setIsHambergerClicked] = useState(false)
-    return (
-        <aside className=" grid grid-rows-11 bg-blue-700 text-white drop-shadow-lg font-light rounded-md font-mono">
-            <RxHamburgerMenu onClick={() => {
-                setIsHambergerClicked(true);
-            }} />
-
+    return (        
+        <m.aside 
+            className=" grid grid-rows-11 bg-blue-700 text-white drop-shadow-lg font-light rounded-md font-mono"
+            drag='x'
+            dragConstraints={{left:-220, right:0}}
+            dragElastic={0}
+        >   
             <ProfileSection username={JSON.parse(localStorage.getItem('currentUser'))?.username} picture={null} />
             
             
             <div className='...'></div>
 
-            <NavigationButton icon={MdOutlineDashboard} name='Dashboard' />
-            <NavigationButton icon={FaTasks} name='Tasks' />
+            <NavigationButton icon={MdOutlineDashboard} name='Dashboard'/>
+            <NavigationButton icon={FaTasks} name='Tasks'/>
             <NavigationButton icon={FaSearch} name='Find Courses' />
             <NavigationButton icon={GiProgression} name='Statistics' />
             <NavigationButton icon={LuCalendarDays} name='Calendar' />
@@ -68,7 +69,7 @@ function HeroSection(){
 
             <NavigationButton icon={MdSettings} name='Settings' />
             <LogoutButton />
-        </aside>
+        </m.aside>
     );
 }
 
