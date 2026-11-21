@@ -50,7 +50,7 @@ function HeroSection(){
     const dragControls = useDragControls()
     return (
         <m.aside
-            className="grid grid-rows-11 grid-cols-[230px_20px] bg-blue-700 text-white drop-shadow-lg font-light rounded-md font-mono touch-none w-[250px]"
+            className="col-start-1 row-start-1 w-[250px] z-20 grid grid-rows-11 grid-cols-[230px_20px] bg-blue-700 text-white drop-shadow-lg font-light rounded-md font-mono touch-none"
             drag='x'
             dragConstraints={{left:-230, right:0}}
             dragElastic={0}
@@ -82,27 +82,20 @@ function HeroSection(){
 
 export default function HomeProfile(){
     return(
-        <div className={`grid grid-cols-2 min-h-screen bg-white z-0`}>
-            <div className="col-start-1 row-start-1 z-0">
-                <HeroSection />
-            </div>
-            <div className="col-start-1 row-start-1 -z-10">
-                <div className='flex bg-black w-[250px] h-screen justify-start'></div>
-
-                <main className="grid grid-flow-row-dense grid-cols-3 grid-row-3 -z-10">
-                    <div className="col-span-full row-span-2 drop-shadow-xl rounded-md bg-slate-100 m-3 flex items-center justify-center ml-auto">
+        <div className='grid'>
+            <HeroSection />
+            <div className={"col-start-1 row-start-1 z-0 grid grid-cols-[250px_1fr] min-h-screen bg-white w-screen"}>
+                <div className=' bg-black h-screen'></div>
+                <main className="grid grid-rows-3 grid-cols-3">
+                    <div className="col-span-full row-span-2 drop-shadow-xl rounded-md bg-slate-100 m-3 flex items-center justify-center">
                         <p className='font-bold font-mono text-black'>
                             Welcome Back, User!
                             <br />
                             Get started with your journey right now!
                         </p>
                     </div>
-                    <div className=""></div>
-                    <div className=""></div>
-                    <div className=""></div>
                 </main>
             </div>
-            
         </div>
     )
 }
