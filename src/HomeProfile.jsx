@@ -4,7 +4,7 @@ import { MdOutlineDashboard, MdSettings, MdLogout, MdDragIndicator } from 'react
 import { PiStudentFill } from 'react-icons/pi'
 import { LuCalendarDays } from 'react-icons/lu'
 
-import { useContext, useState } from 'react'
+import { useContext, useRef, useState } from 'react'
 import { AuthContext } from './AuthContext'
 import { handleDeleteRequest } from './fetch_api'
 import { motion as m, useDragControls } from 'framer-motion'
@@ -46,7 +46,7 @@ function ProfileSection({ username, picture }){
     );
 }
 
-function HeroSection(){
+function HeroSection({ onDrag, dragRef }){
     const dragControls = useDragControls()
     return (
         <m.aside
@@ -54,8 +54,10 @@ function HeroSection(){
             drag='x'
             dragConstraints={{left:-230, right:0}}
             dragElastic={0}
+            dragMomentum={false}
             dragControls={dragControls}
             dragListener={false}
+            onDrag={onDrag}
         >   
             <ProfileSection username={JSON.parse(localStorage.getItem('currentUser'))?.username} picture={null} />
             
@@ -80,21 +82,36 @@ function HeroSection(){
     );
 }
 
+function MainWindow(){
+    return (
+        <main className="grid grid-rows-3 grid-cols-3">
+            <div className="col-span-full row-span-2 drop-shadow-xl rounded-md bg-slate-100 m-3 flex items-center justify-center">
+                <p className='font-bold font-mono text-black'>
+                    Welcome Back, User!
+                    <br />
+                    Get started with your journey right now!
+                </p>
+            </div>
+        </main>
+    );
+}
+
 export default function HomeProfile(){
+    const [heroOnScreen, setHeroOnScreen] = useState(250)
     return(
         <div className='grid'>
-            <HeroSection />
-            <div className={"col-start-1 row-start-1 z-0 grid grid-cols-[250px_1fr] min-h-screen bg-white w-screen"}>
-                <div className=' bg-black h-screen'></div>
-                <main className="grid grid-rows-3 grid-cols-3">
-                    <div className="col-span-full row-span-2 drop-shadow-xl rounded-md bg-slate-100 m-3 flex items-center justify-center">
-                        <p className='font-bold font-mono text-black'>
-                            Welcome Back, User!
-                            <br />
-                            Get started with your journey right now!
-                        </p>
-                    </div>
-                </main>
+            <HeroSection onDrag={(event, info) => {
+                if (info.point.x <= 20){
+                    setHeroOnScreen(20);
+                } else if (info.point.x >= 250){
+                    setHeroOnScreen(250);
+                } else {
+                    setHeroOnScreen(info.point.x);
+                }
+            }} />
+            <div style={{"--hero":`${heroOnScreen}px`}} className={"col-start-1 row-start-1 z-0 grid grid-cols-[var(--hero)_1fr] min-h-screen bg-white w-screen"}>
+                <div className='h-screen'></div>
+                <MainWindow />
             </div>
         </div>
     )
