@@ -85,13 +85,14 @@ function HeroSection({ onDrag, dragRef }){
 function MainWindow(){
     return (
         <main className="grid grid-rows-3 grid-cols-3">
-            <div className="col-span-full row-span-2 drop-shadow-xl rounded-md bg-slate-100 m-3 flex items-center justify-center">
+            <div className="col-span-full row-span-1 drop-shadow-xl rounded-md bg-slate-100 m-3 flex items-center justify-center">
                 <p className='font-bold font-mono text-black'>
                     Welcome Back, User!
-                    <br />
-                    Get started with your journey right now!
+                    <br /> Let's continue where you have left off!
                 </p>
             </div>
+            <h2>Recommended Courses</h2>
+            <h2>Current Courses</h2>
         </main>
     );
 }
@@ -102,11 +103,11 @@ export default function HomeProfile(){
         <div className='grid'>
             <HeroSection onDrag={(event, info) => {
                 if (info.point.x <= 20){
-                    setHeroOnScreen(20);
+                    setHeroOnScreen(20 + 5);
                 } else if (info.point.x >= 250){
                     setHeroOnScreen(250);
                 } else {
-                    setHeroOnScreen(info.point.x);
+                    setHeroOnScreen(info.point.x + 5);
                 }
             }} />
             <div style={{"--hero":`${heroOnScreen}px`}} className={"col-start-1 row-start-1 z-0 grid grid-cols-[var(--hero)_1fr] min-h-screen bg-white w-screen"}>
